@@ -1,3 +1,4 @@
+
 // Copyright 2023 QMK
 // SPDX-License-Identifier: GPL-2.0-or-later
 #include "quantum.h"
@@ -64,6 +65,14 @@ oled_rotation_t oled_init_kb(oled_rotation_t rotation) {
 //     oled_write_P(qmk_logo, false);
 // }
 
+static void render_logo(void) {
+    static const unsigned char PROGMEM raw_logo[] = {
+        63, 63,199,251,251, 62,222,198,251,255,255,255,255,255,255,255,255,255,255,255,255,255,255,251,255,198, 62, 62,251,199,199, 63,252,252,199,191,191,126,233,193,207,255,191,191,191,191,191,191,191,191,191,191,191,191,191,239,207,225,126,126,191,231,231,252,255,255,255,255,255,  0,255,255,127, 63, 31, 31,127,127,255,255,255,255,255,127, 31, 31, 31,127,127,255,  0,  0,255,255,255,255,255,255,255,127,127, 56,223,199, 60, 56, 56, 56, 60, 60, 63, 63, 63, 63, 63,124,120, 56, 56,
+        60,254,199,248,248,255,255,255,255,255,255,255,254,254,247,228,204,  0, 56,184,119, 73, 73,  0,  0,  0,  0,  0,  0,  0,  0,128,  7,111,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,252,253,129, 18, 16,  0,  0,128,128,  0,  0,  0,  0,  0,  9,128,128, 79, 63, 63,255,255,255,255,
+    };
+    oled_write_raw_P(raw_logo, sizeof(raw_logo));
+}
+
 void print_status_narrow(void) {
 
     oled_write_ln_P(PSTR(""), false);
@@ -78,8 +87,11 @@ void print_status_narrow(void) {
         case 2:
             oled_write_P(PSTR("2"), false);
             break;
+        case 3:
+            oled_write_P(PSTR("3"), false);
+            break;
         default:
-            oled_write_P(PSTR("any"), false);
+            oled_write_P(PSTR("*"), false);
     }
 
     oled_write_P(PSTR("\n\n"), false);
@@ -121,7 +133,7 @@ void print_status_narrow(void) {
 
 void render_capslock(void) {
 
-    oled_write_ln_P(PSTR("CAPS "), false);
+    oled_write_ln_P(PSTR("\nCAPS "), false);
     if (host_keyboard_led_state().caps_lock) {
         oled_write_P(PSTR(" ON"), false);
     } else {
@@ -140,7 +152,7 @@ bool oled_task_kb(void) {
     oled_clear();
     print_status_narrow();
     render_capslock();
-    // render_logo();
+    render_logo();
 
     // if (is_keyboard_master()) {
     //     print_status_narrow();
