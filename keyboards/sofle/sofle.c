@@ -1,4 +1,3 @@
-
 // Copyright 2023 QMK
 // SPDX-License-Identifier: GPL-2.0-or-later
 #include "quantum.h"
@@ -52,6 +51,7 @@ const uint8_t PROGMEM encoder_hand_swap_config[NUM_ENCODERS] = {1, 0};
 oled_rotation_t oled_init_kb(oled_rotation_t rotation) {
     return OLED_ROTATION_270;
     // if (is_keyboard_master()) {
+    //     return OLED_ROTATION_270;
     // }
     // return rotation;
 }
@@ -64,101 +64,62 @@ oled_rotation_t oled_init_kb(oled_rotation_t rotation) {
 //     };
 //     oled_write_P(qmk_logo, false);
 // }
+//
 
 static void render_logo(void) {
     static const char PROGMEM raw_logo[] = {
-
-        112,136,  4, 50, 73, 71, 64, 64, 64, 64, 64, 64, 64, 71, 73, 50,  4,136,112,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,255,  0,224,240,240,224,  0,  0,  0,224,240,240,224,  0,255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4, 42, 85, 42,244,253,253,252,252,252,252,252,253,245,228,  2,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 63,127,255,255, 63, 63, 63,255,255,127, 63, 80, 96,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,112,136,  4, 50, 73, 71, 64, 64, 64, 64, 64, 64, 64, 71, 73, 50,  4,136,112,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,255,  0,224,240,240,224,  0,  0,  0,224,240,240,224,  0,255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  2,  4,  5,  5,  4,  4,  4,  4,  4,  5,  5,  4,  2,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     };
     oled_write_raw_P(raw_logo, sizeof(raw_logo));
 }
 
-void print_status_narrow(void) {
+void print_layer(void) {
+    oled_write_ln_P(PSTR("Layer"), false);
 
-    oled_write_ln_P(PSTR(""), false);
-    oled_write_P(PSTR("L: "), false);
-    switch (get_highest_layer(layer_state)) {
-        case 0:
-            oled_write_P(PSTR("0"), false);
-            break;
-        case 1:
-            oled_write_P(PSTR("1"), false);
-            break;
-        case 2:
-            oled_write_P(PSTR("2"), false);
-            break;
-        case 3:
-            oled_write_P(PSTR("3"), false);
-            break;
-        default:
-            oled_write_P(PSTR("*"), false);
-    }
+    oled_write(get_u8_str(get_highest_layer(layer_state), ' '), false);
 
-    oled_write_P(PSTR("\n\n"), false);
-
-    // switch (get_highest_layer(layer_state)) {
-    //     case 0:
-    //         oled_write_ln_P(PSTR("Qwrt"), false);
-    //         break;
-    //     case 1:
-    //         oled_write_ln_P(PSTR("Clmk"), false);
-    //         break;
-    //     default:
-    //         oled_write_P(PSTR("Mod\n"), false);
-    //         break;
-    // }
-    // oled_write_P(PSTR("\n\n"), false);
-    // oled_write_ln_P(PSTR("LAYER"), false);
-    // switch (get_highest_layer(layer_state)) {
-    //     case 0:
-    //     case 1:
-    //         oled_write_P(PSTR("Base\n"), false);
-    //         break;
-    //     case 2:
-    //         oled_write_P(PSTR("Lower"), false);
-    //         break;
-    //     case 3:
-    //         oled_write_P(PSTR("Raise"), false);
-    //         break;
-    //     case 4:
-    //         oled_write_P(PSTR("Adjust"), false);
-    //         break;
-    //     default:
-    //         oled_write_ln_P(PSTR("Undef"), false);
-    // }
-    // oled_write_P(PSTR("\n\n"), false);
-    // led_t led_usb_state = host_keyboard_led_state();
-    // oled_write_ln_P(PSTR("CPSLK"), led_usb_state.caps_lock);
+    oled_write_ln_P(PSTR("\n"), false);
 }
 
 void render_capslock(void) {
+    oled_write_ln_P(PSTR("Caps "), false);
 
-    oled_write_ln_P(PSTR("\nCAPS "), false);
     if (host_keyboard_led_state().caps_lock) {
-        oled_write_P(PSTR(" ON"), false);
+        oled_write_P(PSTR(" on"), false);
     } else {
-        oled_write_P(PSTR(" OFF"), false);
+        oled_write_P(PSTR(" off"), false);
     }
 
-    oled_write_ln_P(PSTR("\n\n"), false);
+    oled_write_ln_P(PSTR("\n"), false);
+}
+
+void render_wpm(void) {
+    oled_write_ln_P(PSTR("Wpm\n"), false);
+
+    char buf[4];
+    uint8_t wpm = get_current_wpm();
+    snprintf(buf, sizeof(buf), "%3d", wpm);
+    oled_write(buf, false);
+
+
+    oled_write_ln_P(PSTR("\n"), false);
 }
 
 
 bool oled_task_kb(void) {
-    // if (!oled_task_user()) {
-    //     return false;
-    // }
+    if (!oled_task_user()) {
+        return false;
+    }
 
     oled_clear();
-    print_status_narrow();
-    render_capslock();
-    render_logo();
 
-    // if (is_keyboard_master()) {
-    //     print_status_narrow();
-    // } else {
-    //     render_logo();
-    // }
+    if (is_keyboard_master()) {
+        print_layer();
+        render_wpm();
+        render_capslock();
+    } else {
+        render_logo();
+    }
     return true;
 }
 
@@ -185,3 +146,5 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
     return true;
 }
 #endif
+
+
