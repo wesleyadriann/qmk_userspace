@@ -1,6 +1,7 @@
 // Copyright 2023 QMK
 // SPDX-License-Identifier: GPL-2.0-or-later
 #include "quantum.h"
+#include "oled_space.h"
 
 #ifdef SWAP_HANDS_ENABLE
 
@@ -49,30 +50,21 @@ const uint8_t PROGMEM encoder_hand_swap_config[NUM_ENCODERS] = {1, 0};
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_kb(oled_rotation_t rotation) {
-    return OLED_ROTATION_270;
-    // if (is_keyboard_master()) {
-    //     return OLED_ROTATION_270;
-    // }
-    // return rotation;
+    // return OLED_ROTATION_270;
+    if (is_keyboard_master()) {
+        return OLED_ROTATION_270;
+    }
+    return rotation;
 }
+
 
 // static void render_logo(void) {
-//     static const char PROGMEM qmk_logo[] = {
-//         0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,0x90,0x91,0x92,0x93,0x94,
-//         0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,0xb0,0xb1,0xb2,0xb3,0xb4,
-//         0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,0xd0,0xd1,0xd2,0xd3,0xd4,0
+//     static const char PROGMEM raw_logo[] = {
+//         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,192, 48,  8,248,  0,  0,  0,  0,  0,252,  4, 56,192,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,248,  7,  0,  0,255,  0,  0,  0,  0,128,112, 15,  0,  0,  1,254,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 31,224,  0,128,128,  1,  2,  6,  0,  1,128,128,  0,128, 96, 31,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  3,  5, 11, 11,  8,  8,  8, 11, 11,  9,  6,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+//         0,  0,  0,  0,  0,  0,  0,112,136,  4, 50, 73, 71, 64, 64, 64, 64, 64, 64, 64, 71, 73, 50,  4,136,112,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,255,  0,224,240,240,224,  0,  0,  0,224,240,240,224,  0,255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  2,  4,  5,  5,  4,  4,  4,  4,  4,  5,  5,  4,  2,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
 //     };
-//     oled_write_P(qmk_logo, false);
+//     oled_write_raw_P(raw_logo, sizeof(raw_logo));
 // }
-//
-
-static void render_logo(void) {
-    static const char PROGMEM raw_logo[] = {
-        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,192, 48,  8,248,  0,  0,  0,  0,  0,252,  4, 56,192,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,248,  7,  0,  0,255,  0,  0,  0,  0,128,112, 15,  0,  0,  1,254,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 31,224,  0,128,128,  1,  2,  6,  0,  1,128,128,  0,128, 96, 31,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  3,  5, 11, 11,  8,  8,  8, 11, 11,  9,  6,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-        0,  0,  0,  0,  0,  0,  0,112,136,  4, 50, 73, 71, 64, 64, 64, 64, 64, 64, 64, 71, 73, 50,  4,136,112,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,255,  0,224,240,240,224,  0,  0,  0,224,240,240,224,  0,255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  2,  4,  5,  5,  4,  4,  4,  4,  4,  5,  5,  4,  2,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    };
-    oled_write_raw_P(raw_logo, sizeof(raw_logo));
-}
 
 void print_layer(void) {
     oled_write_ln_P(PSTR("Layer"), false);
@@ -123,7 +115,8 @@ bool oled_task_kb(void) {
         render_wpm();
         render_capslock();
     } else {
-        render_logo();
+        render_space();
+        // render_logo();
     }
     return true;
 }
@@ -151,5 +144,4 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
     return true;
 }
 #endif
-
 
