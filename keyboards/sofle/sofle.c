@@ -97,10 +97,15 @@ void render_capslock(void) {
 void render_wpm(void) {
     oled_write_ln_P(PSTR("Wpm\n"), false);
 
-    char buf[4];
-    uint8_t wpm = get_current_wpm();
-    snprintf(buf, sizeof(buf), "%3d", wpm);
-    oled_write(buf, false);
+    uint8_t wpm_val = get_current_wpm();
+
+    if (wpm_val < 5) {
+        oled_write("  0", false);
+    } else {
+        char wpm_str[4];
+        snprintf(wpm_str, sizeof(wpm_str), "%3d", wpm_val);
+        oled_write(wpm_str, false);
+    }
 
     oled_write_ln_P(PSTR("\n"), false);
 }
@@ -146,4 +151,5 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
     return true;
 }
 #endif
+
 
