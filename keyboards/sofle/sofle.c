@@ -95,11 +95,15 @@ void render_capslock(void) {
 
 
 bool oled_task_kb(void) {
-    if (!oled_task_user() || !is_oled_on()) {
+    if ( !is_oled_on()) {
         return false;
     }
 
     oled_clear();
+
+    if (!oled_task_user()) {
+        return false;
+    }
 
     if (is_keyboard_master()) {
         print_layer();
