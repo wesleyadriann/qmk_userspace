@@ -57,33 +57,13 @@ oled_rotation_t oled_init_kb(oled_rotation_t rotation) {
     return rotation;
 }
 
-
-// static void render_logo(void) {
-//     static const char PROGMEM raw_logo[] = {
-//         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,192, 48,  8,248,  0,  0,  0,  0,  0,252,  4, 56,192,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,248,  7,  0,  0,255,  0,  0,  0,  0,128,112, 15,  0,  0,  1,254,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 31,224,  0,128,128,  1,  2,  6,  0,  1,128,128,  0,128, 96, 31,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  3,  5, 11, 11,  8,  8,  8, 11, 11,  9,  6,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-//         0,  0,  0,  0,  0,  0,  0,112,136,  4, 50, 73, 71, 64, 64, 64, 64, 64, 64, 64, 71, 73, 50,  4,136,112,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,255,  0,224,240,240,224,  0,  0,  0,224,240,240,224,  0,255,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  2,  4,  5,  5,  4,  4,  4,  4,  4,  5,  5,  4,  2,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-//     };
-//     oled_write_raw_P(raw_logo, sizeof(raw_logo));
-// }
-
 void print_layer(void) {
     oled_write_ln_P(PSTR("Layer"), false);
 
     oled_write(get_u8_str(get_highest_layer(layer_state), ' '), false);
 
-    oled_write_ln_P(PSTR("\n"), false);
-}
-
-void render_capslock(void) {
-    oled_write_ln_P(PSTR("Caps "), false);
-
-    if (host_keyboard_led_state().caps_lock) {
-        oled_write_P(PSTR(" on"), false);
-    } else {
-        oled_write_P(PSTR(" off"), false);
-    }
-
-    oled_write_ln_P(PSTR("\n"), false);
+    oled_write_ln_P(PSTR(""), false);
+    oled_write_P(PSTR("-----"), false);
 }
 
 void render_wpm(void) {
@@ -99,12 +79,23 @@ void render_wpm(void) {
         oled_write(wpm_str, false);
     }
 
-    oled_write_ln_P(PSTR("\n"), false);
+    oled_write_ln_P(PSTR(""), false);
+    oled_write_P(PSTR("-----"), false);
+}
+
+void render_capslock(void) {
+    oled_write_ln_P(PSTR("Caps "), false);
+
+    if (host_keyboard_led_state().caps_lock) {
+        oled_write_P(PSTR(" on"), false);
+    } else {
+        oled_write_P(PSTR(" off"), false);
+    }
 }
 
 
 bool oled_task_kb(void) {
-    if (!oled_task_user()) {
+    if (!oled_task_user() || !is_oled_on()) {
         return false;
     }
 
@@ -116,7 +107,6 @@ bool oled_task_kb(void) {
         render_capslock();
     } else {
         render_space();
-        // render_logo();
     }
     return true;
 }

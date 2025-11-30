@@ -8,3 +8,4 @@
 #define TRI_LAYER_ADJUST_LAYER 4
 
 #define MASTER_RIGHT
+#define OLED_TIMEOUT 10000
