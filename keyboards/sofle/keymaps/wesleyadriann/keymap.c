@@ -91,23 +91,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
-//        ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌──────┬──────┬─────┬──────┬──────┬─────┐
-//        │     │     │     │     │     │     │               │      │      │     │      │ pscr │ del │
-//        ├─────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼──────┼─────┼──────┼──────┼─────┤
-//        │     │     │     │     │     │     │               │      │      │     │      │      │     │
-//        ├─────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼──────┼─────┼──────┼──────┼─────┤
-//        │     │     │     │     │     │     │               │ left │ down │ up  │ rght │      │     │
-//        ├─────┼─────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼──────┼──────┼─────┼──────┼──────┼─────┤
-//        │     │     │     │     │     │     │     │   │     │      │      │     │      │      │     │
-//        └─────┼─────┼─────┼─────┼─────┼─────┼─────┘   └─────┼──────┼──────┼─────┼──────┼──────┼─────┘
-//              │     │     │     │     │     │               │      │      │     │      │      │
-//              └─────┴─────┴─────┴─────┴─────┘               └──────┴──────┴─────┴──────┴──────┘
+//        ┌─────┬─────┬─────┬────────┬────────┬─────┐               ┌──────┬──────┬─────┬──────┬──────┬─────┐
+//        │     │     │     │        │        │     │               │      │      │     │      │ pscr │ del │
+//        ├─────┼─────┼─────┼────────┼────────┼─────┤               ├──────┼──────┼─────┼──────┼──────┼─────┤
+//        │     │     │     │        │        │     │               │      │      │     │      │      │     │
+//        ├─────┼─────┼─────┼────────┼────────┼─────┤               ├──────┼──────┼─────┼──────┼──────┼─────┤
+//        │     │     │     │        │        │     │               │ left │ down │ up  │ rght │      │     │
+//        ├─────┼─────┼─────┼────────┼────────┼─────┼─────┐   ┌─────┼──────┼──────┼─────┼──────┼──────┼─────┤
+//        │     │     │     │ LCS(c) │ LCS(v) │     │     │   │     │      │      │     │      │      │     │
+//        └─────┼─────┼─────┼────────┼────────┼─────┼─────┘   └─────┼──────┼──────┼─────┼──────┼──────┼─────┘
+//              │     │     │        │        │     │               │      │      │     │      │      │
+//              └─────┴─────┴────────┴────────┴─────┘               └──────┴──────┴─────┴──────┴──────┘
 [3] = LAYOUT(
-      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_PSCR , KC_DEL ,
-      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_LEFT , KC_DOWN , KC_UP   , KC_RGHT , KC_TRNS , KC_TRNS,
-      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-                KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS
+      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS   , KC_TRNS   , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_PSCR , KC_DEL ,
+      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS   , KC_TRNS   , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS   , KC_TRNS   , KC_TRNS ,                         KC_LEFT , KC_DOWN , KC_UP   , KC_RGHT , KC_TRNS , KC_TRNS,
+      KC_TRNS , KC_TRNS , KC_TRNS , LCS(KC_C) , LCS(KC_V) , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+                KC_TRNS , KC_TRNS , KC_TRNS   , KC_TRNS   , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS
 )
 };
 
