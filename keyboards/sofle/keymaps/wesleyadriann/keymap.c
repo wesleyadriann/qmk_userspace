@@ -3,70 +3,67 @@
 #    include "keymap.h"
 #endif
 
+enum layer_names {
+    _0_MAIN,
+    _1_NAVIGATION,
+    _2_SYMBOLS,
+    _3_AUX,
+    _4_AUX_ALT,
+};
 
 enum custom_keycodes {
-    LAYER_TG_LT = SAFE_RANGE, // tecla customizada
-    LAYER_TG_LT_2
+    LAYER_1_3 = SAFE_RANGE, // tecla customizada
+    LAYER_2_4,
 };
+
 
 static uint16_t layer_timer;
 
-// Função principal
+static void handle_layer_tap_hold(keyrecord_t *record, uint8_t hold_layer, uint8_t tap_layer) {
+    if (record->event.pressed) {
+        layer_timer = timer_read();
+        layer_on(hold_layer);
+    } else {
+        layer_off(hold_layer);
+        if (timer_elapsed(layer_timer) < 200) {
+            layer_invert(tap_layer);
+        } else {
+            layer_move(_0_MAIN);
+        }
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case LAYER_TG_LT:
-            if (record->event.pressed) {
-                layer_timer = timer_read();
-                layer_on(3);  // ativa layer 3 enquanto segura
-            } else {
-                layer_off(3);  // soltar → desativa layer 3
-                if (timer_elapsed(layer_timer) < 200) {
-                    // toque rápido → alterna layer 1
-                    layer_invert(1);
-                } else {
-                    // segurou → volta pra layer 0
-                    layer_move(0);
-                }
-            }
-            return false; // não envia keycode padrão
-        case LAYER_TG_LT_2:
-            if (record->event.pressed) {
-                layer_timer = timer_read();
-                layer_on(4);  // ativa layer 4 enquanto segura
-            } else {
-                layer_off(4);  // soltar → desativa layer 4
-                if (timer_elapsed(layer_timer) < 200) {
-                    // toque rápido → alterna layer 2
-                    layer_invert(2);
-                } else {
-                    // segurou → volta pra layer 0
-                    layer_move(0);
-                }
-            }
-            return false; // não envia keycode padrão
+        case LAYER_1_3:
+            handle_layer_tap_hold(record, _3_AUX, _1_NAVIGATION);
+            return false;
+        case LAYER_2_4:
+            handle_layer_tap_hold(record, _4_AUX_ALT, _2_SYMBOLS);
+            return false;
     }
     return true;
 }
 
 // Keymaps
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//        ┌─────────┬──────┬──────┬──────┬─────────────┬─────┐                 ┌─────┬───────────────┬──────┬──────┬──────┬──────┐
-//        │ QK_GESC │  1   │  2   │  3   │      4      │  5  │                 │  6  │       7       │  8   │  9   │  0   │  -   │
-//        ├─────────┼──────┼──────┼──────┼─────────────┼─────┤                 ├─────┼───────────────┼──────┼──────┼──────┼──────┤
-//        │   tab   │  q   │  w   │  e   │      r      │  t  │                 │  y  │       u       │  i   │  o   │  p   │  =   │
-//        ├─────────┼──────┼──────┼──────┼─────────────┼─────┤                 ├─────┼───────────────┼──────┼──────┼──────┼──────┤
-//        │  lsft   │  a   │  s   │  d   │      f      │  g  │                 │  h  │       j       │  k   │  l   │  ;   │  '   │
-//        ├─────────┼──────┼──────┼──────┼─────────────┼─────┼──────┐   ┌──────┼─────┼───────────────┼──────┼──────┼──────┼──────┤
-//        │  lctl   │  z   │  x   │  c   │      v      │  b  │ mute │   │ mply │  n  │       m       │  ,   │  .   │  /   │ rsft │
-//        └─────────┼──────┼──────┼──────┼─────────────┼─────┼──────┘   └──────┼─────┼───────────────┼──────┼──────┼──────┼──────┘
-//                  │ lgui │ lalt │ caps │ LAYER_TG_LT │ spc │                 │ ent │ LAYER_TG_LT_2 │ bspc │ ralt │ rgui │
-//                  └──────┴──────┴──────┴─────────────┴─────┘                 └─────┴───────────────┴──────┴──────┴──────┘
-[0] = LAYOUT(
-      QK_GESC , KC_1    , KC_2    , KC_3    , KC_4        , KC_5   ,                         KC_6   , KC_7          , KC_8    , KC_9    , KC_0    , KC_MINS,
-      KC_TAB  , KC_Q    , KC_W    , KC_E    , KC_R        , KC_T   ,                         KC_Y   , KC_U          , KC_I    , KC_O    , KC_P    , KC_EQL ,
-      KC_LSFT , KC_A    , KC_S    , KC_D    , KC_F        , KC_G   ,                         KC_H   , KC_J          , KC_K    , KC_L    , KC_SCLN , KC_QUOT,
-      KC_LCTL , KC_Z    , KC_X    , KC_C    , KC_V        , KC_B   , KC_MUTE ,     KC_MPLY , KC_N   , KC_M          , KC_COMM , KC_DOT  , KC_SLSH , KC_RSFT,
-                KC_LGUI , KC_LALT , KC_CAPS , LAYER_TG_LT , KC_SPC ,                         KC_ENT , LAYER_TG_LT_2 , KC_BSPC , KC_RALT , KC_RGUI
+//        ┌─────────┬──────┬──────┬──────┬───────────┬─────┐                 ┌─────┬───────────┬──────┬──────┬──────┬──────┐
+//        │ QK_GESC │  1   │  2   │  3   │     4     │  5  │                 │  6  │     7     │  8   │  9   │  0   │  -   │
+//        ├─────────┼──────┼──────┼──────┼───────────┼─────┤                 ├─────┼───────────┼──────┼──────┼──────┼──────┤
+//        │   tab   │  q   │  w   │  e   │     r     │  t  │                 │  y  │     u     │  i   │  o   │  p   │  =   │
+//        ├─────────┼──────┼──────┼──────┼───────────┼─────┤                 ├─────┼───────────┼──────┼──────┼──────┼──────┤
+//        │  lsft   │  a   │  s   │  d   │     f     │  g  │                 │  h  │     j     │  k   │  l   │  ;   │  '   │
+//        ├─────────┼──────┼──────┼──────┼───────────┼─────┼──────┐   ┌──────┼─────┼───────────┼──────┼──────┼──────┼──────┤
+//        │  lctl   │  z   │  x   │  c   │     v     │  b  │ mute │   │ mply │  n  │     m     │  ,   │  .   │  /   │ rsft │
+//        └─────────┼──────┼──────┼──────┼───────────┼─────┼──────┘   └──────┼─────┼───────────┼──────┼──────┼──────┼──────┘
+//                  │ lgui │ lalt │ caps │ LAYER_1_3 │ spc │                 │ ent │ LAYER_2_4 │ bspc │ ralt │ rgui │
+//                  └──────┴──────┴──────┴───────────┴─────┘                 └─────┴───────────┴──────┴──────┴──────┘
+[_0_MAIN] = LAYOUT(
+      QK_GESC , KC_1    , KC_2    , KC_3    , KC_4      , KC_5   ,                         KC_6   , KC_7      , KC_8    , KC_9    , KC_0    , KC_MINS,
+      KC_TAB  , KC_Q    , KC_W    , KC_E    , KC_R      , KC_T   ,                         KC_Y   , KC_U      , KC_I    , KC_O    , KC_P    , KC_EQL ,
+      KC_LSFT , KC_A    , KC_S    , KC_D    , KC_F      , KC_G   ,                         KC_H   , KC_J      , KC_K    , KC_L    , KC_SCLN , KC_QUOT,
+      KC_LCTL , KC_Z    , KC_X    , KC_C    , KC_V      , KC_B   , KC_MUTE ,     KC_MPLY , KC_N   , KC_M      , KC_COMM , KC_DOT  , KC_SLSH , KC_RSFT,
+                KC_LGUI , KC_LALT , KC_CAPS , LAYER_1_3 , KC_SPC ,                         KC_ENT , LAYER_2_4 , KC_BSPC , KC_RALT , KC_RGUI
 ),
 
 //        ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌──────┬──────┬─────┬──────┬─────┬─────┐
@@ -80,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //        └─────┼─────┼─────┼─────┼─────┼─────┼─────┘   └─────┼──────┼──────┼─────┼──────┼─────┼─────┘
 //              │     │     │     │     │     │               │      │      │     │      │     │
 //              └─────┴─────┴─────┴─────┴─────┘               └──────┴──────┴─────┴──────┴─────┘
-[1] = LAYOUT(
+[_1_NAVIGATION] = LAYOUT(
       KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
       KC_GRV  , KC_TRNS , KC_TRNS , KC_LBRC , KC_RBRC , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
       KC_TRNS , KC_TRNS , KC_TRNS , KC_LPRN , KC_RPRN , KC_TRNS ,                         KC_LEFT , KC_DOWN , KC_UP   , KC_RGHT , KC_TRNS , KC_TRNS,
@@ -99,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //        └─────┼─────┼─────┼─────┼─────┼─────┼─────┘   └─────┼─────┼─────┼─────┼─────┼─────┼─────┘
 //              │     │     │     │     │     │               │     │     │     │     │     │
 //              └─────┴─────┴─────┴─────┴─────┘               └─────┴─────┴─────┴─────┴─────┘
-[2] = LAYOUT(
+[_2_SYMBOLS] = LAYOUT(
       KC_TRNS , KC_F1   , KC_F2   , KC_F3   , KC_F4   , KC_F5   ,                         KC_F6   , KC_F7   , KC_F8   , KC_F9   , KC_F10  , KC_F11 ,
       KC_GRV  , KC_1    , KC_2    , KC_3    , KC_4    , KC_5    ,                         KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , KC_F12 ,
       KC_TRNS , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC ,                         KC_CIRC , KC_AMPR , KC_ASTR , KC_LPRN , KC_RPRN , KC_PIPE,
@@ -118,7 +115,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //        └─────┼─────┼─────┼────────┼────────┼─────┼─────┘   └─────┼──────┼──────┼─────┼──────┼──────┼─────┘
 //              │     │     │        │        │     │               │      │      │     │      │      │
 //              └─────┴─────┴────────┴────────┴─────┘               └──────┴──────┴─────┴──────┴──────┘
-[3] = LAYOUT(
+[_3_AUX] = LAYOUT(
       KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS   , KC_TRNS   , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_PSCR , KC_DEL ,
       KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS   , KC_TRNS   , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
       KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS   , KC_TRNS   , KC_TRNS ,                         KC_LEFT , KC_DOWN , KC_UP   , KC_RGHT , KC_TRNS , KC_TRNS,
@@ -137,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //        └─────┼─────┼─────┼─────┼─────┼─────┼─────┘   └─────┼─────┼─────┼─────┼─────┼─────┼─────┘
 //              │     │     │     │     │     │               │     │     │     │     │     │
 //              └─────┴─────┴─────┴─────┴─────┘               └─────┴─────┴─────┴─────┴─────┘
-[4] = LAYOUT(
+[_4_AUX_ALT] = LAYOUT(
       KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
       KC_TRNS , KC_TRNS , KC_TRNS , KC_LBRC , KC_RBRC , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
       KC_TRNS , KC_TRNS , KC_TRNS , KC_LPRN , KC_RPRN , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,

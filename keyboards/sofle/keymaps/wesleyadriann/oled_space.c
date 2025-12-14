@@ -1,4 +1,5 @@
 #include "quantum.h"
+#include "wpm.h"
 #include "oled_space.h"
 
 unsigned int state = 0;
@@ -200,7 +201,7 @@ static const char PROGMEM mask_row_4[] = {
 };
 
 void render_space(void) {
-    char wpm = get_current_wpm();
+    uint8_t wpm = get_current_wpm();
     char render_row[128];
     int i;
     oled_set_cursor(0,0);

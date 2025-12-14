@@ -3,6 +3,8 @@
 #include "quantum.h"
 #include "oled_space.h"
 
+#include QMK_KEYBOARD_H
+
 #ifdef SWAP_HANDS_ENABLE
 
 __attribute__ ((weak))
@@ -50,7 +52,6 @@ const uint8_t PROGMEM encoder_hand_swap_config[NUM_ENCODERS] = {1, 0};
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_kb(oled_rotation_t rotation) {
-    // return OLED_ROTATION_270;
     if (is_keyboard_master()) {
         return OLED_ROTATION_270;
     }
@@ -74,9 +75,7 @@ void render_wpm(void) {
     if (wpm_val < 5) {
         oled_write("  0", false);
     } else {
-        char wpm_str[4];
-        snprintf(wpm_str, sizeof(wpm_str), "%3d", wpm_val);
-        oled_write(wpm_str, false);
+        oled_write(get_u8_str(wpm_val, ' '), false);
     }
 
     oled_write_ln_P(PSTR(""), false);
@@ -91,11 +90,11 @@ void render_capslock(void) {
     } else {
         oled_write_P(PSTR(" off"), false);
     }
+
 }
 
-
 bool oled_task_kb(void) {
-    if ( !is_oled_on()) {
+    if (!is_oled_on()) {
         return false;
     }
 
@@ -138,4 +137,3 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
     return true;
 }
 #endif
-
