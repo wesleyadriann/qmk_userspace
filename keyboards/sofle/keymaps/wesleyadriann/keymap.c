@@ -5,7 +5,7 @@
 
 enum layer_names {
     _0_MAIN,
-    _1_NAVIGATION,
+    _1_WASD,
     _2_SYMBOLS,
     _3_AUX,
     _4_AUX_ALT,
@@ -36,7 +36,7 @@ static void handle_layer_tap_hold(keyrecord_t *record, uint8_t hold_layer, uint8
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LAYER_1_3:
-            handle_layer_tap_hold(record, _3_AUX, _1_NAVIGATION);
+            handle_layer_tap_hold(record, _3_AUX, _1_WASD);
             return false;
         case LAYER_2_4:
             handle_layer_tap_hold(record, _4_AUX_ALT, _2_SYMBOLS);
@@ -54,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //        ├─────────┼──────┼──────┼──────┼───────────┼─────┤                 ├─────┼───────────┼──────┼──────┼───┼──────┤
 //        │  lsft   │  a   │  s   │  d   │     f     │  g  │                 │  h  │     j     │  k   │  l   │ ; │  '   │
 //        ├─────────┼──────┼──────┼──────┼───────────┼─────┼──────┐   ┌──────┼─────┼───────────┼──────┼──────┼───┼──────┤
-//        │  lctl   │  z   │  x   │  c   │     v     │  b  │ mute │   │ mply │  n  │     m     │  ,   │  .   │ / │ rsft │
+//        │  lctl   │  z   │  x   │  c   │     v     │  b  │ mply │   │ caps │  n  │     m     │  ,   │  .   │ / │ rsft │
 //        └─────────┼──────┼──────┼──────┼───────────┼─────┼──────┘   └──────┼─────┼───────────┼──────┼──────┼───┼──────┘
 //                  │ lgui │ lalt │ caps │ LAYER_1_3 │ spc │                 │ ent │ LAYER_2_4 │ bspc │ ralt │ \ │
 //                  └──────┴──────┴──────┴───────────┴─────┘                 └─────┴───────────┴──────┴──────┴───┘
@@ -62,26 +62,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       QK_GESC , KC_1    , KC_2    , KC_3    , KC_4      , KC_5   ,                         KC_6   , KC_7      , KC_8    , KC_9    , KC_0    , KC_MINS,
       KC_TAB  , KC_Q    , KC_W    , KC_E    , KC_R      , KC_T   ,                         KC_Y   , KC_U      , KC_I    , KC_O    , KC_P    , KC_EQL ,
       KC_LSFT , KC_A    , KC_S    , KC_D    , KC_F      , KC_G   ,                         KC_H   , KC_J      , KC_K    , KC_L    , KC_SCLN , KC_QUOT,
-      KC_LCTL , KC_Z    , KC_X    , KC_C    , KC_V      , KC_B   , KC_MUTE ,     KC_MPLY , KC_N   , KC_M      , KC_COMM , KC_DOT  , KC_SLSH , KC_RSFT,
+      KC_LCTL , KC_Z    , KC_X    , KC_C    , KC_V      , KC_B   , KC_MPLY ,     KC_CAPS , KC_N   , KC_M      , KC_COMM , KC_DOT  , KC_SLSH , KC_RSFT,
                 KC_LGUI , KC_LALT , KC_CAPS , LAYER_1_3 , KC_SPC ,                         KC_ENT , LAYER_2_4 , KC_BSPC , KC_RALT , KC_BSLS
 ),
 
-//        ┌─────┬─────┬─────┬─────┬─────┬─────┐               ┌──────┬──────┬─────┬──────┬─────┬─────┐
-//        │     │     │     │     │     │     │               │      │      │     │      │     │     │
-//        ├─────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼──────┼─────┼──────┼─────┼─────┤
-//        │  `  │     │     │  [  │  ]  │     │               │      │      │     │      │     │     │
-//        ├─────┼─────┼─────┼─────┼─────┼─────┤               ├──────┼──────┼─────┼──────┼─────┼─────┤
-//        │     │     │     │  (  │  )  │     │               │ left │ down │ up  │ rght │     │     │
-//        ├─────┼─────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼──────┼──────┼─────┼──────┼─────┼─────┤
-//        │     │     │     │  {  │  }  │     │     │   │     │      │      │     │      │     │     │
-//        └─────┼─────┼─────┼─────┼─────┼─────┼─────┘   └─────┼──────┼──────┼─────┼──────┼─────┼─────┘
-//              │     │     │     │     │     │               │      │      │     │      │     │
-//              └─────┴─────┴─────┴─────┴─────┘               └──────┴──────┴─────┴──────┴─────┘
-[_1_NAVIGATION] = LAYOUT(
+//        ┌─────┬──────┬─────┬─────┬─────┬─────┐               ┌──────┬──────┬──────┬─────┬─────┬─────┐
+//        │     │      │     │     │     │     │               │      │      │      │     │     │     │
+//        ├─────┼──────┼─────┼─────┼─────┼─────┤               ├──────┼──────┼──────┼─────┼─────┼─────┤
+//        │  `  │      │     │  w  │     │     │               │      │  up  │      │     │     │     │
+//        ├─────┼──────┼─────┼─────┼─────┼─────┤               ├──────┼──────┼──────┼─────┼─────┼─────┤
+//        │     │ lsft │  a  │  s  │  d  │     │               │ left │ down │ rght │     │     │     │
+//        ├─────┼──────┼─────┼─────┼─────┼─────┼─────┐   ┌─────┼──────┼──────┼──────┼─────┼─────┼─────┤
+//        │     │      │     │     │     │     │     │   │     │      │      │      │     │     │     │
+//        └─────┼──────┼─────┼─────┼─────┼─────┼─────┘   └─────┼──────┼──────┼──────┼─────┼─────┼─────┘
+//              │      │     │     │     │     │               │      │      │      │     │     │
+//              └──────┴─────┴─────┴─────┴─────┘               └──────┴──────┴──────┴─────┴─────┘
+[_1_WASD] = LAYOUT(
       KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-      KC_GRV  , KC_TRNS , KC_TRNS , KC_LBRC , KC_RBRC , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-      KC_TRNS , KC_TRNS , KC_TRNS , KC_LPRN , KC_RPRN , KC_TRNS ,                         KC_LEFT , KC_DOWN , KC_UP   , KC_RGHT , KC_TRNS , KC_TRNS,
-      KC_TRNS , KC_TRNS , KC_TRNS , KC_LCBR , KC_RCBR , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+      KC_GRV  , KC_TRNS , KC_TRNS , KC_W    , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_UP   , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+      KC_TRNS , KC_LSFT , KC_A    , KC_S    , KC_D    , KC_TRNS ,                         KC_LEFT , KC_DOWN , KC_RGHT , KC_TRNS , KC_TRNS , KC_TRNS,
+      KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,     KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
                 KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,                         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
