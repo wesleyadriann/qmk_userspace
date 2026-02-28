@@ -17,7 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
-
+#include "quantum.h"
+#include "oled_render.h"
 
 enum layer_names {
     _0_MAIN,
@@ -28,24 +29,24 @@ enum layer_names {
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌─────────┬───┬───┬──────┬────────────┬─────┐       ┌─────────────────────┬────────────────┬──────┬───┬───┬──────┐
-//    │ QK_GESC │ q │ w │  e   │     r      │  t  │       │          y          │       u        │  i   │ o │ p │  =   │
-//    ├─────────┼───┼───┼──────┼────────────┼─────┤       ├─────────────────────┼────────────────┼──────┼───┼───┼──────┤
-//    │   tab   │ a │ s │  d   │     f      │  g  │       │          h          │       j        │  k   │ l │ ; │  '   │
-//    ├─────────┼───┼───┼──────┼────────────┼─────┤       ├─────────────────────┼────────────────┼──────┼───┼───┼──────┤
-//    │  lctl   │ z │ x │  c   │     v      │  b  │       │          n          │       m        │  ,   │ . │ / │ rsft │
-//    └─────────┴───┴───┼──────┼────────────┼─────┤       ├─────────────────────┼────────────────┼──────┼───┴───┴──────┘
-//                      │ lgui │ MO(_1_AUX) │ spc │       │ LT(_3_NUMBERS, ent) │ MO(_2_AUX_ALT) │ bspc │
-//                      └──────┴────────────┴─────┘       └─────────────────────┴────────────────┴──────┘
+//    ┌─────────┬───┬───┬──────┬────────────┬─────────────────────┐       ┌─────────────────────┬────────────────┬──────┬───┬───┬──────┐
+//    │ QK_GESC │ q │ w │  e   │     r      │          t          │       │          y          │       u        │  i   │ o │ p │  =   │
+//    ├─────────┼───┼───┼──────┼────────────┼─────────────────────┤       ├─────────────────────┼────────────────┼──────┼───┼───┼──────┤
+//    │   tab   │ a │ s │  d   │     f      │          g          │       │          h          │       j        │  k   │ l │ ; │  '   │
+//    ├─────────┼───┼───┼──────┼────────────┼─────────────────────┤       ├─────────────────────┼────────────────┼──────┼───┼───┼──────┤
+//    │  lctl   │ z │ x │  c   │     v      │          b          │       │          n          │       m        │  ,   │ . │ / │ rsft │
+//    └─────────┴───┴───┼──────┼────────────┼─────────────────────┤       ├─────────────────────┼────────────────┼──────┼───┴───┴──────┘
+//                      │ lgui │ MO(_1_AUX) │ LT(_3_NUMBERS, spc) │       │ LT(_3_NUMBERS, ent) │ MO(_2_AUX_ALT) │ bspc │
+//                      └──────┴────────────┴─────────────────────┘       └─────────────────────┴────────────────┴──────┘
 [_0_MAIN] = LAYOUT_split_3x6_3(
-  QK_GESC , KC_Q , KC_W , KC_E    , KC_R       , KC_T   ,         KC_Y                   , KC_U           , KC_I    , KC_O   , KC_P    , KC_EQL ,
-  KC_TAB  , KC_A , KC_S , KC_D    , KC_F       , KC_G   ,         KC_H                   , KC_J           , KC_K    , KC_L   , KC_SCLN , KC_QUOT,
-  KC_LCTL , KC_Z , KC_X , KC_C    , KC_V       , KC_B   ,         KC_N                   , KC_M           , KC_COMM , KC_DOT , KC_SLSH , KC_RSFT,
-                          KC_LGUI , MO(_1_AUX) , KC_SPC ,         LT(_3_NUMBERS, KC_ENT) , MO(_2_AUX_ALT) , KC_BSPC
+  QK_GESC , KC_Q , KC_W , KC_E    , KC_R       , KC_T                   ,         KC_Y                   , KC_U           , KC_I    , KC_O   , KC_P    , KC_EQL ,
+  KC_TAB  , KC_A , KC_S , KC_D    , KC_F       , KC_G                   ,         KC_H                   , KC_J           , KC_K    , KC_L   , KC_SCLN , KC_QUOT,
+  KC_LCTL , KC_Z , KC_X , KC_C    , KC_V       , KC_B                   ,         KC_N                   , KC_M           , KC_COMM , KC_DOT , KC_SLSH , KC_RSFT,
+                          KC_LGUI , MO(_1_AUX) , LT(_3_NUMBERS, KC_SPC) ,         LT(_3_NUMBERS, KC_ENT) , MO(_2_AUX_ALT) , KC_BSPC
 ),
 
 //    ┌─────┬─────┬─────┬────────┬────────┬─────┐       ┌──────┬──────┬─────┬──────┬─────┬─────┐
-//    │     │  1  │  2  │   3    │   4    │  5  │       │  6   │  7   │  8  │  9   │  0  │     │
+//    │     │  1  │  2  │   3    │   4    │  5  │       │  6   │  7   │  8  │  9   │  0  │ del │
 //    ├─────┼─────┼─────┼────────┼────────┼─────┤       ├──────┼──────┼─────┼──────┼─────┼─────┤
 //    │     │     │     │        │        │     │       │ left │ down │ up  │ rght │     │     │
 //    ├─────┼─────┼─────┼────────┼────────┼─────┤       ├──────┼──────┼─────┼──────┼─────┼─────┤
@@ -54,41 +55,41 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                      │        │        │     │       │      │      │     │
 //                      └────────┴────────┴─────┘       └──────┴──────┴─────┘
 [_1_AUX] = LAYOUT_split_3x6_3(
-  KC_TRNS , KC_1    , KC_2    , KC_3      , KC_4      , KC_5    ,         KC_6    , KC_7    , KC_8    , KC_9     , KC_0    , KC_TRNS,
+  KC_TRNS , KC_1    , KC_2    , KC_3      , KC_4      , KC_5    ,         KC_6    , KC_7    , KC_8    , KC_9     , KC_0    , KC_DEL ,
   KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS   , KC_TRNS   , KC_TRNS ,         KC_LEFT , KC_DOWN , KC_UP   , KC_RIGHT , KC_TRNS , KC_TRNS,
   KC_TRNS , KC_TRNS , KC_TRNS , LCS(KC_C) , LCS(KC_V) , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS  , KC_TRNS , KC_TRNS,
                                 KC_TRNS   , KC_TRNS   , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
-//    ┌──────┬─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┬─────┐
-//    │      │     │     │  [  │  ]  │     │       │     │     │     │     │     │     │
-//    ├──────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │ lctl │     │     │  (  │  ]  │     │       │  -  │  =  │     │     │     │     │
-//    ├──────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │ lsft │     │     │  {  │  }  │     │       │  _  │  +  │     │     │  |  │     │
-//    └──────┴─────┴─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┴─────┴─────┘
-//                       │     │     │     │       │     │     │     │
-//                       └─────┴─────┴─────┘       └─────┴─────┴─────┘
-[_2_AUX_ALT] = LAYOUT_split_3x6_3(
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_LBRC , KC_RBRC , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_LCTL , KC_TRNS , KC_TRNS , KC_LPRN , KC_RBRC , KC_TRNS ,         KC_MINS , KC_EQL  , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_LSFT , KC_TRNS , KC_TRNS , KC_LCBR , KC_RCBR , KC_TRNS ,         KC_UNDS , KC_PLUS , KC_TRNS , KC_TRNS , KC_PIPE , KC_TRNS,
-                                KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
-),
-
 //    ┌─────┬─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┬─────┐
-//    │     │  1  │  2  │  3  │  4  │  5  │       │  6  │  7  │  8  │  9  │  0  │     │
+//    │     │     │     │  [  │  ]  │     │       │     │     │     │     │     │     │
 //    ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │     │     │     │     │       │     │     │     │     │     │     │
+//    │     │     │     │  (  │  ]  │     │       │  -  │  =  │     │     │     │     │
 //    ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │     │     │     │     │       │     │     │     │     │     │     │
+//    │     │     │     │  {  │  }  │     │       │  _  │  +  │     │     │  \  │     │
 //    └─────┴─────┴─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┴─────┴─────┘
 //                      │     │     │     │       │     │     │     │
 //                      └─────┴─────┴─────┘       └─────┴─────┴─────┘
+[_2_AUX_ALT] = LAYOUT_split_3x6_3(
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_LBRC , KC_RBRC , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_LPRN , KC_RBRC , KC_TRNS ,         KC_MINS , KC_EQL  , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_LCBR , KC_RCBR , KC_TRNS ,         KC_UNDS , KC_PLUS , KC_TRNS , KC_TRNS , KC_BSLS , KC_TRNS,
+                                KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
+),
+
+//    ┌──────┬─────┬─────┬─────┬──────┬──────┐       ┌──────┬─────┬─────┬─────┬─────┬─────┐
+//    │      │  1  │  2  │  3  │  4   │  5   │       │  6   │  7  │  8  │  9  │  0  │     │
+//    ├──────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┼─────┼─────┤
+//    │ lsft │     │     │     │      │ mply │       │ caps │     │     │     │     │     │
+//    ├──────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┼─────┼─────┤
+//    │      │     │     │     │ vold │ volu │       │      │     │     │     │     │     │
+//    └──────┴─────┴─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┴─────┴─────┘
+//                       │     │      │      │       │      │     │     │
+//                       └─────┴──────┴──────┘       └──────┴─────┴─────┘
 [_3_NUMBERS] = LAYOUT_split_3x6_3(
   KC_TRNS , KC_1    , KC_2    , KC_3    , KC_4    , KC_5    ,         KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , KC_TRNS,
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_LSFT , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_MPLY ,         KC_CAPS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_VOLD , KC_VOLU ,         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
                                 KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
 )
 };
@@ -101,3 +102,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //   [3] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT), ENCODER_CCW_CW(RM_VALD, RM_VALU), ENCODER_CCW_CW(KC_RGHT, KC_LEFT), },
 // };
 #endif
+
+
+#ifdef OLED_ENABLE
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    if (!is_keyboard_master()) {
+        return OLED_ROTATION_180; // flips the display 180 degrees if offhand
+    } else {
+        return OLED_ROTATION_270;
+    }
+    return rotation;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+        set_keylog(keycode, record);
+    }
+    return true;
+}
+
+bool oled_task_user(void) {
+    if (is_keyboard_master()) {
+        oled_render_layer_state();
+        oled_render_capslock();
+        oled_render_keylog();
+    } else {
+        oled_render_logo();
+    }
+    return false;
+}
+#endif // OLED_ENABLE
