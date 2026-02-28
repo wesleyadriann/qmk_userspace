@@ -1,4 +1,7 @@
 #include QMK_KEYBOARD_H
+#include "oled_render.h"
+#include "oled_space.h"
+
 #if __has_include("keymap.h")
 #    include "keymap.h"
 #endif
@@ -122,4 +125,46 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #ifdef OTHER_KEYMAP_C
 #    include OTHER_KEYMAP_C
 #endif // OTHER_KEYMAP_C
+
+#ifdef OLED_ENABLE
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    if (is_keyboard_master()) {
+        return OLED_ROTATION_270;
+    }
+    return rotation;
+}
+
+bool oled_task_user(void) {
+    oled_clear();
+
+    if (is_keyboard_master()) {
+        print_layer();
+        render_wpm();
+        render_capslock();
+    } else {
+        render_space();
+    }
+    return false;
+}
+#endif // OLED_ENABLE
+
+
+#ifdef ENCODER_ENABLE
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    if (index == 0) {
+        if (clockwise) {
+            tap_code(KC_VOLU);
+        } else {
+            tap_code(KC_VOLD);
+        }
+    } else if (index == 1) {
+        if (clockwise) {
+            tap_code(KC_MEDIA_NEXT_TRACK);
+        } else {
+            tap_code(KC_MEDIA_PREV_TRACK);
+        }
+    }
+    return false;
+}
+#endif
 
