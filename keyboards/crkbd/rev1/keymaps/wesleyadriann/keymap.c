@@ -62,34 +62,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 //    ┌─────┬─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┬─────┐
-//    │     │     │     │  [  │  ]  │     │       │     │     │     │     │     │     │
+//    │  `  │     │     │  [  │  ]  │     │       │     │     │     │     │     │     │
 //    ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │     │  (  │  ]  │     │       │  -  │  =  │     │     │     │     │
+//    │     │     │     │  (  │  )  │     │       │  -  │  =  │     │     │     │     │
 //    ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
 //    │     │     │     │  {  │  }  │     │       │  _  │  +  │     │     │  \  │     │
 //    └─────┴─────┴─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┴─────┴─────┘
 //                      │     │     │     │       │     │     │     │
 //                      └─────┴─────┴─────┘       └─────┴─────┴─────┘
 [_2_AUX_ALT] = LAYOUT_split_3x6_3(
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_LBRC , KC_RBRC , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_LPRN , KC_RBRC , KC_TRNS ,         KC_MINS , KC_EQL  , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_LCBR , KC_RCBR , KC_TRNS ,         KC_UNDS , KC_PLUS , KC_TRNS , KC_TRNS , KC_BSLS , KC_TRNS,
-                                KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
+  KC_GRAVE , KC_TRNS , KC_TRNS , KC_LBRC , KC_RBRC , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS  , KC_TRNS , KC_TRNS , KC_LPRN , KC_RPRN , KC_TRNS ,         KC_MINS , KC_EQL  , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS  , KC_TRNS , KC_TRNS , KC_LCBR , KC_RCBR , KC_TRNS ,         KC_UNDS , KC_PLUS , KC_TRNS , KC_TRNS , KC_BSLS , KC_TRNS,
+                                 KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
-//    ┌──────┬─────┬─────┬─────┬──────┬──────┐       ┌──────┬─────┬─────┬─────┬─────┬─────┐
-//    │      │  1  │  2  │  3  │  4   │  5   │       │  6   │  7  │  8  │  9  │  0  │     │
-//    ├──────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┼─────┼─────┤
-//    │ lsft │     │     │     │      │ mply │       │ caps │     │     │     │     │     │
-//    ├──────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┼─────┼─────┤
-//    │      │     │     │     │ vold │ volu │       │      │     │     │     │     │     │
-//    └──────┴─────┴─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┴─────┴─────┘
-//                       │     │      │      │       │      │     │     │
-//                       └─────┴──────┴──────┘       └──────┴─────┴─────┘
+//    ┌─────┬─────┬─────┬─────┬──────┬──────┐       ┌──────┬─────┬─────┬─────┬────────┬─────┐
+//    │     │  1  │  2  │  3  │  4   │  5   │       │  6   │  7  │  8  │  9  │   0    │     │
+//    ├─────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┼────────┼─────┤
+//    │     │     │     │     │      │ mply │       │ caps │     │     │     │ RCA(,) │     │
+//    ├─────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┼────────┼─────┤
+//    │     │     │     │     │ vold │ volu │       │      │     │     │     │        │     │
+//    └─────┴─────┴─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┴────────┴─────┘
+//                      │     │      │      │       │      │     │     │
+//                      └─────┴──────┴──────┘       └──────┴─────┴─────┘
 [_3_NUMBERS] = LAYOUT_split_3x6_3(
-  KC_TRNS , KC_1    , KC_2    , KC_3    , KC_4    , KC_5    ,         KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , KC_TRNS,
-  KC_LSFT , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_MPLY ,         KC_CAPS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_VOLD , KC_VOLU ,         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS , KC_1    , KC_2    , KC_3    , KC_4    , KC_5    ,         KC_6    , KC_7    , KC_8    , KC_9    , KC_0         , KC_TRNS,
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_MPLY ,         KC_CAPS , KC_TRNS , KC_TRNS , KC_TRNS , RCA(KC_COMM) , KC_TRNS,
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_VOLD , KC_VOLU ,         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS      , KC_TRNS,
                                 KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
 )
 };
