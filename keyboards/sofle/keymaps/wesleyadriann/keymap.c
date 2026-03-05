@@ -135,7 +135,12 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 bool oled_task_user(void) {
-    oled_clear();
+    if (last_input_activity_elapsed() > 60000) {
+        oled_off();
+        return false;
+    }
+
+    oled_on();
 
     if (is_keyboard_master()) {
         print_layer();

@@ -14,9 +14,9 @@ void oled_render_capslock(void) {
     oled_write_ln_P(PSTR("Caps "), false);
 
     if (host_keyboard_led_state().caps_lock) {
-        oled_write_P(PSTR(" on"), false);
+        oled_write_P(PSTR("  *"), false);
     } else {
-        oled_write_P(PSTR(" off"), false);
+        oled_write_P(PSTR("  _"), false);
     }
 
     oled_write_ln_P(PSTR(""), false);
@@ -24,9 +24,10 @@ void oled_render_capslock(void) {
 }
 
 char     key_name_user = '_';
-uint16_t last_keycode;
+// uint16_t last_keycode;
 uint8_t  last_row;
 uint8_t  last_col;
+uint32_t key_counter = 0;
 
 static const char PROGMEM code_to_name[60] = {' ', ' ', ' ', ' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'R', 'E', 'B', 'T', '_', '-', '=', '[', ']', '\\', '#', ';', '\'', '`', ',', '.', '/', ' ', ' ', ' '};
 
@@ -35,8 +36,10 @@ void set_keylog(uint16_t keycode, keyrecord_t *record) {
     last_row = record->event.key.row;
     last_col = record->event.key.col;
 
+    key_counter++;
+
     key_name_user     = '_';
-    last_keycode = keycode;
+    // last_keycode = keycode;
     if (IS_QK_MOD_TAP(keycode)) {
         if (record->tap.count) {
             keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
@@ -58,33 +61,33 @@ void set_keylog(uint16_t keycode, keyrecord_t *record) {
     key_name_user = pgm_read_byte(&code_to_name[keycode]);
 }
 
-static const char *depad_str(const char *depad_str, char depad_char) {
-    while (*depad_str == depad_char)
-        ++depad_str;
-    return depad_str;
-}
+// static const char *depad_str(const char *depad_str, char depad_char) {
+//     while (*depad_str == depad_char)
+//         ++depad_str;
+//     return depad_str;
+// }
 
 void oled_render_keylog(void) {
 
-    oled_write_ln_P(PSTR("Key\n"), false);
+    oled_write_ln_P(PSTR(" Key\n"), false);
 
     oled_write_P(PSTR("  "), false);
     oled_write_char(key_name_user, false);
+    // oled_write_ln_P(PSTR(""), false);
+    //
+    // oled_write_P(PSTR(" "), false);
+    // oled_write_char('0' + last_row, false);
+    // oled_write_P(PSTR("x"), false);
+    // oled_write_char('0' + last_col, false);
+
+
+    // const char *last_keycode_str = get_u16_str(last_keycode, ' ');
+    // oled_write(depad_str(last_keycode_str, ' '), false);
+
     oled_write_ln_P(PSTR(""), false);
+    oled_write_P(PSTR("-----"), false);
 
-    oled_write_P(PSTR(" "), false);
-    oled_write_char('0' + last_row, false);
-    oled_write_P(PSTR("x"), false);
-    oled_write_char('0' + last_col, false);
-
-    oled_write_ln_P(PSTR(""), false);
-
-    const char *last_keycode_str = get_u16_str(last_keycode, ' ');
-    oled_write(depad_str(last_keycode_str, ' '), false);
-
-    oled_write_ln_P(PSTR(""), false);
-
-    oled_advance_page(true);
+    // oled_advance_page(true);
 }
 
 void oled_render_logo(void) {
@@ -97,3 +100,10 @@ void oled_render_logo(void) {
 }
 
 
+void render_key_counter(void) {
+    oled_write_ln_P(PSTR("Count"), false);
+
+    char buf[16];
+    snprintf(buf, sizeof(buf), "%3lu", key_counter);
+    oled_write_ln(buf, false);
+}

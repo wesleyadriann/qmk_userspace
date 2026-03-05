@@ -9,3 +9,5 @@
 
 #define MASTER_RIGHT
 #define OLED_TIMEOUT 10000
+
+#define SPLIT_WPM_ENABLE

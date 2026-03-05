@@ -126,6 +126,7 @@ bool oled_task_user(void) {
         oled_render_layer_state();
         oled_render_capslock();
         oled_render_keylog();
+        render_key_counter();
     } else {
         oled_render_logo();
     }
