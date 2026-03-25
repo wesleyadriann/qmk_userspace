@@ -64,16 +64,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ┌─────┬─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┬─────┐
 //    │  `  │     │     │  [  │  ]  │     │       │     │     │     │     │     │     │
 //    ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │     │  (  │  )  │     │       │  -  │  =  │     │     │     │     │
+//    │     │     │     │  (  │  )  │     │       │  -  │  +  │     │     │     │     │
 //    ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │     │  {  │  }  │     │       │  _  │  +  │     │     │  \  │     │
+//    │     │     │     │  {  │  }  │     │       │  _  │  =  │     │     │  \  │     │
 //    └─────┴─────┴─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┴─────┴─────┘
 //                      │     │     │     │       │     │     │     │
 //                      └─────┴─────┴─────┘       └─────┴─────┴─────┘
 [_2_AUX_ALT] = LAYOUT_split_3x6_3(
   KC_GRAVE , KC_TRNS , KC_TRNS , KC_LBRC , KC_RBRC , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_TRNS  , KC_TRNS , KC_TRNS , KC_LPRN , KC_RPRN , KC_TRNS ,         KC_MINS , KC_EQL  , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
-  KC_TRNS  , KC_TRNS , KC_TRNS , KC_LCBR , KC_RCBR , KC_TRNS ,         KC_UNDS , KC_PLUS , KC_TRNS , KC_TRNS , KC_BSLS , KC_TRNS,
+  KC_TRNS  , KC_TRNS , KC_TRNS , KC_LPRN , KC_RPRN , KC_TRNS ,         KC_MINS , KC_PLUS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS  , KC_TRNS , KC_TRNS , KC_LCBR , KC_RCBR , KC_TRNS ,         KC_UNDS , KC_EQL  , KC_TRNS , KC_TRNS , KC_BSLS , KC_TRNS,
                                  KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
