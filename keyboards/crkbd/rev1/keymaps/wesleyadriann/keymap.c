@@ -18,7 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 #include "quantum.h"
+#include "rgb_matrix.h"
 #include "oled_render.h"
+
 
 enum layer_names {
     _0_MAIN,
@@ -78,19 +80,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
-//    ┌─────┬─────────┬─────────┬─────────┬─────────┬─────┐       ┌─────────┬─────────┬─────────┬─────────┬─────┬─────┐
-//    │     │    1    │    2    │    3    │    4    │  5  │       │    6    │    7    │    8    │    9    │  0  │     │
-//    ├─────┼─────────┼─────────┼─────────┼─────────┼─────┤       ├─────────┼─────────┼─────────┼─────────┼─────┼─────┤
-//    │     │ RM_TOGG │ RM_HUEU │ RM_SATU │ RM_VALU │     │       │ UG_TOGG │ UG_HUEU │ UG_SATU │ UG_VALU │     │     │
-//    ├─────┼─────────┼─────────┼─────────┼─────────┼─────┤       ├─────────┼─────────┼─────────┼─────────┼─────┼─────┤
-//    │     │ RM_NEXT │ RM_HUED │ RM_SATD │ RM_VALD │     │       │ UG_NEXT │ UG_HUED │ UG_SATD │ UG_VALD │     │     │
-//    └─────┴─────────┴─────────┼─────────┼─────────┼─────┤       ├─────────┼─────────┼─────────┼─────────┴─────┴─────┘
-//                              │         │         │     │       │         │         │         │
-//                              └─────────┴─────────┴─────┘       └─────────┴─────────┴─────────┘
+//    ┌─────┬─────┬─────┬─────┬─────┬─────┐       ┌─────────┬─────────┬─────────┬─────────┬─────────┬─────┐
+//    │     │  1  │  2  │  3  │  4  │  5  │       │    6    │    7    │    8    │    9    │    0    │     │
+//    ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────────┼─────────┼─────────┼─────────┼─────────┼─────┤
+//    │     │     │     │     │     │     │       │ RM_TOGG │ RM_HUEU │ RM_SATU │ RM_VALU │ RM_SPDU │     │
+//    ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────────┼─────────┼─────────┼─────────┼─────────┼─────┤
+//    │     │     │     │     │     │     │       │ RM_NEXT │ RM_HUED │ RM_SATD │ RM_VALD │ RM_SPDD │     │
+//    └─────┴─────┴─────┼─────┼─────┼─────┤       ├─────────┼─────────┼─────────┼─────────┴─────────┴─────┘
+//                      │     │     │     │       │         │         │         │
+//                      └─────┴─────┴─────┘       └─────────┴─────────┴─────────┘
 [_3_NUMBERS_RGB] = LAYOUT_split_3x6_3(
   KC_TRNS , KC_1    , KC_2    , KC_3    , KC_4    , KC_5    ,         KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , KC_TRNS,
-  KC_TRNS , RM_TOGG , RM_HUEU , RM_SATU , RM_VALU , KC_TRNS ,         UG_TOGG , UG_HUEU , UG_SATU , UG_VALU , KC_TRNS , KC_TRNS,
-  KC_TRNS , RM_NEXT , RM_HUED , RM_SATD , RM_VALD , KC_TRNS ,         UG_NEXT , UG_HUED , UG_SATD , UG_VALD , KC_TRNS , KC_TRNS,
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,         RM_TOGG , RM_HUEU , RM_SATU , RM_VALU , RM_SPDU , KC_TRNS,
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,         RM_NEXT , RM_HUED , RM_SATD , RM_VALD , RM_SPDD , KC_TRNS,
                                 KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
@@ -141,12 +143,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 bool oled_task_user(void) {
     if (is_keyboard_master()) {
         oled_render_layer_state();
-        oled_render_capslock();
-        oled_render_keylog();
-        render_key_counter();
+        // oled_render_capslock();
+        // oled_render_keylog();
+        // render_key_counter();
+        render_rgb_status();
     } else {
         oled_render_logo();
     }
     return false;
 }
 #endif // OLED_ENABLE
+

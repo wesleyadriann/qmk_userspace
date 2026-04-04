@@ -1,17 +1,36 @@
 #include "quantum.h"
 #include "oled_render.h"
+#include "rgb_matrix.h"
+#include "color.h"
+#include "oled_driver.h"
+
+// void oled_render_layer_state(void) {
+//     oled_write_P(PSTR("L:"), false);
+//
+//     oled_write(get_u8_str(get_highest_layer(layer_state), ' '), false);
+//
+//     oled_write_ln_P(PSTR(""), false);
+//     // oled_write_P(PSTR("-----"), false);
+// }
+//
 
 void oled_render_layer_state(void) {
-    oled_write_ln_P(PSTR("Layer"), false);
+    char buf[16];
 
-    oled_write(get_u8_str(get_highest_layer(layer_state), ' '), false);
+    uint8_t layer = get_highest_layer(layer_state);
+    bool caps = host_keyboard_led_state().caps_lock;
 
-    oled_write_ln_P(PSTR(""), false);
-    oled_write_P(PSTR("-----"), false);
+    // ● = caps ON | ○ = caps OFF
+    snprintf(buf, sizeof(buf), "L%d  %c",
+        layer,
+        caps ? 0xDF : 0xDE
+    );
+
+    oled_write_ln(buf, false); // invertido = destaque
 }
 
 void oled_render_capslock(void) {
-    oled_write_ln_P(PSTR("Caps "), false);
+    oled_write_P(PSTR("C:"), false);
 
     if (host_keyboard_led_state().caps_lock) {
         oled_write_P(PSTR("  *"), false);
@@ -20,7 +39,7 @@ void oled_render_capslock(void) {
     }
 
     oled_write_ln_P(PSTR(""), false);
-    oled_write_P(PSTR("-----"), false);
+    // oled_write_P(PSTR("-----"), false);
 }
 
 char     key_name_user = '_';
@@ -120,4 +139,52 @@ void render_key_counter(void) {
     char buf[16];
     snprintf(buf, sizeof(buf), "%5lu", key_counter);
     oled_write_ln(buf, false);
+}
+
+void render_rgb_status(void) {
+
+    // Brilho
+    uint8_t val = rgb_matrix_get_val(); // 0–255
+
+    // converte para 0–5
+    uint8_t level = (val * 5) / 150;
+
+    char bar[6] = ".....";
+
+    if (level > 0 && level < sizeof bar) {
+        bar[level - 1] = '|';
+    }
+
+
+    oled_write_ln(bar, false);
+
+    char buf[6];
+    // =====================
+    // HUE (0–255)
+    // =====================
+    snprintf(buf, sizeof(buf), "H%03d", rgb_matrix_get_hue());
+    oled_write_ln(buf, false);
+    oled_write_ln_P(PSTR(""), false);
+
+   // =====================
+    // SAT (0–255)
+    // =====================
+    snprintf(buf, sizeof(buf), "S%03d", rgb_matrix_get_sat());
+    oled_write_ln(buf, false);
+    oled_write_ln_P(PSTR(""), false);
+
+
+    // =====================
+    // MODE
+    // =====================
+    snprintf(buf, sizeof(buf), "M%03d", rgb_matrix_get_mode());
+    oled_write_ln(buf, false);
+    oled_write_ln_P(PSTR(""), false);
+
+    // =====================
+    // SPEED
+    // =====================
+    snprintf(buf, sizeof(buf), "S%03d", rgb_matrix_get_speed());
+    oled_write_ln(buf, false);
+    oled_write_ln_P(PSTR(""), false);
 }
