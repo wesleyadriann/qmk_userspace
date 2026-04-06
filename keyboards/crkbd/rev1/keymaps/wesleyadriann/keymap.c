@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 #include "quantum.h"
-#include "rgb_matrix.h"
 #include "oled_render.h"
 
 
@@ -31,21 +30,35 @@ enum layer_names {
 };
 
 
+// custom keycodes
+//  Turn on layer when held, kc when tapped
+#define LT_03 LT(_3_NUMBERS_RGB, KC_ENT)
+#define LT_04 LT(_4_SYMBOLS, KC_SPC)
+
+//  mod-tap home row
+#define LSHIFT_D LSFT_T(KC_D) // Left Shift when held, D when tapped
+#define LALT_S LALT_T(KC_S)  // Left Alt when held, S when tapped
+#define LGUI_F LGUI_T(KC_F)  // Left GUI when held, F when tapped
+
+#define RSHIFT_K RSFT_T(KC_K)  // Right Shift when held, K when tapped
+#define RCTL_J RCTL_T(KC_J)  // Right Control when held, J when tapped
+#define RALT_L RALT_T(KC_L)  // Right Alt when held, L when tapped
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌─────────┬───┬───┬──────┬────────────┬─────────────────────┐       ┌─────────────────────────┬────────────────┬──────┬───┬───┬──────┐
-//    │ QK_GESC │ q │ w │  e   │     r      │          t          │       │            y            │       u        │  i   │ o │ p │  =   │
-//    ├─────────┼───┼───┼──────┼────────────┼─────────────────────┤       ├─────────────────────────┼────────────────┼──────┼───┼───┼──────┤
-//    │   tab   │ a │ s │  d   │     f      │          g          │       │            h            │       j        │  k   │ l │ ; │  '   │
-//    ├─────────┼───┼───┼──────┼────────────┼─────────────────────┤       ├─────────────────────────┼────────────────┼──────┼───┼───┼──────┤
-//    │  lctl   │ z │ x │  c   │     v      │          b          │       │            n            │       m        │  ,   │ . │ / │ rsft │
-//    └─────────┴───┴───┼──────┼────────────┼─────────────────────┤       ├─────────────────────────┼────────────────┼──────┼───┴───┴──────┘
-//                      │ lgui │ MO(_1_AUX) │ LT(_4_SYMBOLS, spc) │       │ LT(_3_NUMBERS_RGB, ent) │ MO(_2_AUX_ALT) │ bspc │
-//                      └──────┴────────────┴─────────────────────┘       └─────────────────────────┴────────────────┴──────┘
+//    ┌─────────┬───┬────────┬──────────┬────────────┬───────┐       ┌───────┬────────────────┬──────────┬────────┬───┬──────┐
+//    │ QK_GESC │ q │   w    │    e     │     r      │   t   │       │   y   │       u        │    i     │   o    │ p │  =   │
+//    ├─────────┼───┼────────┼──────────┼────────────┼───────┤       ├───────┼────────────────┼──────────┼────────┼───┼──────┤
+//    │   tab   │ a │ LALT_S │ LSHIFT_D │   LGUI_F   │   g   │       │   h   │     RCTL_J     │ RSHIFT_K │ RALT_L │ ; │  '   │
+//    ├─────────┼───┼────────┼──────────┼────────────┼───────┤       ├───────┼────────────────┼──────────┼────────┼───┼──────┤
+//    │  lctl   │ z │   x    │    c     │     v      │   b   │       │   n   │       m        │    ,     │   .    │ / │ rsft │
+//    └─────────┴───┴────────┼──────────┼────────────┼───────┤       ├───────┼────────────────┼──────────┼────────┴───┴──────┘
+//                           │   lgui   │ MO(_1_AUX) │ LT_04 │       │ LT_03 │ MO(_2_AUX_ALT) │   bspc   │
+//                           └──────────┴────────────┴───────┘       └───────┴────────────────┴──────────┘
 [_0_MAIN] = LAYOUT_split_3x6_3(
-  QK_GESC , KC_Q , KC_W , KC_E    , KC_R       , KC_T                   ,         KC_Y                       , KC_U           , KC_I    , KC_O   , KC_P    , KC_EQL ,
-  KC_TAB  , KC_A , KC_S , KC_D    , KC_F       , KC_G                   ,         KC_H                       , KC_J           , KC_K    , KC_L   , KC_SCLN , KC_QUOT,
-  KC_LCTL , KC_Z , KC_X , KC_C    , KC_V       , KC_B                   ,         KC_N                       , KC_M           , KC_COMM , KC_DOT , KC_SLSH , KC_RSFT,
-                          KC_LGUI , MO(_1_AUX) , LT(_4_SYMBOLS, KC_SPC) ,         LT(_3_NUMBERS_RGB, KC_ENT) , MO(_2_AUX_ALT) , KC_BSPC
+  QK_GESC , KC_Q , KC_W   , KC_E     , KC_R       , KC_T  ,         KC_Y  , KC_U           , KC_I     , KC_O   , KC_P    , KC_EQL ,
+  KC_TAB  , KC_A , LALT_S , LSHIFT_D , LGUI_F     , KC_G  ,         KC_H  , RCTL_J         , RSHIFT_K , RALT_L , KC_SCLN , KC_QUOT,
+  KC_LCTL , KC_Z , KC_X   , KC_C     , KC_V       , KC_B  ,         KC_N  , KC_M           , KC_COMM  , KC_DOT , KC_SLSH , KC_RSFT,
+                            KC_LGUI  , MO(_1_AUX) , LT_04 ,         LT_03 , MO(_2_AUX_ALT) , KC_BSPC
 ),
 
 //    ┌─────┬─────┬─────┬────────┬────────┬─────┐       ┌──────┬──────┬─────┬──────┬─────┬─────┐
