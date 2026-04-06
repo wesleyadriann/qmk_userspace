@@ -22,9 +22,9 @@ void oled_render_layer_state(void) {
 
     // ● = caps ON | ○ = caps OFF
         // caps ? 0xDF : 0xDE
-    snprintf(buf, sizeof(buf), "L%d C%c",
+    snprintf(buf, sizeof(buf), "L%d  %c",
         layer,
-        caps ? '*' : '_'
+        caps ? 7 : 9
     );
 
     oled_write_ln(buf, false); // invertido = destaque
@@ -148,7 +148,7 @@ void render_rgb_mode(void) {
     // MODE
     // =====================
     //
-    oled_write_ln_P(PSTR(">RGB<"), false);
+    oled_write_ln_P(PSTR("_RGB_"), false);
     char buf[6];
     snprintf(buf, sizeof(buf), "M%03d", rgb_matrix_get_mode());
     oled_write_ln(buf, false);
@@ -157,7 +157,9 @@ void render_rgb_mode(void) {
 
 void render_rgb_status(void) {
 
-    // Brilho
+    // =====================
+    // BRIGHTNESS
+    // =====================
     uint8_t val = rgb_matrix_get_val(); // 0–255
 
     // converte para 0–5
@@ -169,8 +171,23 @@ void render_rgb_status(void) {
         bar[level - 1] = '|';
     }
 
-
     oled_write_ln(bar, false);
+
+    // =====================
+    // SPEED
+    // =====================
+    uint8_t speed_val = rgb_matrix_get_speed(); // 0–255
+
+    // converte para 0–5
+    uint8_t speed_level = (speed_val * 5) / 255;
+
+    char bar_speed[6] = "_____";
+
+    for (int i = 0; i < speed_level; i++) {
+        bar_speed[i] = 16;
+    }
+
+    oled_write_ln(bar_speed, false);
 
     char buf[6];
     // =====================
@@ -187,10 +204,5 @@ void render_rgb_status(void) {
     oled_write_ln(buf, false);
     oled_write_ln_P(PSTR(""), false);
 
-    // =====================
-    // SPEED
-    // =====================
-    snprintf(buf, sizeof(buf), "S%03d", rgb_matrix_get_speed());
-    oled_write_ln(buf, false);
-    oled_write_ln_P(PSTR(""), false);
+
 }

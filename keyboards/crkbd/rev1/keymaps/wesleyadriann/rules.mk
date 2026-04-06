@@ -7,5 +7,4 @@ RGBLIGHT_ENABLE = no
 
 OLED_ENABLE = yes
 
-# opcional (mas recomendado)
 LTO_ENABLE = yes

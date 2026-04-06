@@ -23,8 +23,8 @@
 // =====================
 #ifdef RGB_MATRIX_ENABLE
 // options
-// #   define RGB_MATRIX_LED_COUNT 54
-#define RGB_MATRIX_SPLIT { 27, 27 } // 54 LEDs total
+#   define RGB_MATRIX_LED_COUNT 54
+#   define RGB_MATRIX_SPLIT { 27, 27 } // 54 LEDs total
 
 #   define RGB_MATRIX_TIMEOUT OLED_TIMEOUT // number of milliseconds to wait until rgb automatically turns off
 #   define RGB_MATRIX_SLEEP // turn off effects when suspended
@@ -49,7 +49,7 @@
 #   define RGB_MATRIX_HUE_STEP 16
 #   define RGB_MATRIX_SAT_STEP 16
 #   define RGB_MATRIX_VAL_STEP 30
-#   define RGB_MATRIX_SPD_STEP 16
+#   define RGB_MATRIX_SPD_STEP 51
 
 // animation
 #   define ENABLE_RGB_MATRIX_ALPHAS_MODS
@@ -57,4 +57,6 @@
 #   define ENABLE_RGB_MATRIX_BREATHING
 #   define ENABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
 #   define ENABLE_RGB_MATRIX_CYCLE_ALL
+#   define ENABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
+#   define ENABLE_RGB_MATRIX_DIGITAL_RAIN
 #endif
