@@ -1,14 +1,30 @@
 #pragma once
 
+// =====================
+// SPLIT
+// =====================
 #define MASTER_RIGHT
-#define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
 
-#define OLED_TIMEOUT 120000
+#define SPLIT_TRANSPORT_MIRROR
+#define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_MODS_ENABLE
+#define SPLIT_LED_STATE_ENABLE
+
+// =====================
+// OLED
+// =====================
+// #define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
+#define OLED_TIMEOUT 60000
 #define OLED_FADE_OUT
 
+
+// =====================
+// RGB MATRIX
+// =====================
 #ifdef RGB_MATRIX_ENABLE
 // options
-#   define RGB_MATRIX_LED_COUNT 54
+// #   define RGB_MATRIX_LED_COUNT 54
+#define RGB_MATRIX_SPLIT { 27, 27 } // 54 LEDs total
 
 #   define RGB_MATRIX_TIMEOUT OLED_TIMEOUT // number of milliseconds to wait until rgb automatically turns off
 #   define RGB_MATRIX_SLEEP // turn off effects when suspended

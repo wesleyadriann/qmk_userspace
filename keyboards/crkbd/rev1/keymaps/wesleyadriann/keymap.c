@@ -80,17 +80,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
-//    ┌─────┬─────┬─────┬─────┬─────┬─────┐       ┌─────────┬─────────┬─────────┬─────────┬─────────┬─────┐
-//    │     │  1  │  2  │  3  │  4  │  5  │       │    6    │    7    │    8    │    9    │    0    │     │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────────┼─────────┼─────────┼─────────┼─────────┼─────┤
-//    │     │     │     │     │     │     │       │ RM_TOGG │ RM_HUEU │ RM_SATU │ RM_VALU │ RM_SPDU │     │
-//    ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────────┼─────────┼─────────┼─────────┼─────────┼─────┤
-//    │     │     │     │     │     │     │       │ RM_NEXT │ RM_HUED │ RM_SATD │ RM_VALD │ RM_SPDD │     │
-//    └─────┴─────┴─────┼─────┼─────┼─────┤       ├─────────┼─────────┼─────────┼─────────┴─────────┴─────┘
+//    ┌─────┬─────┬─────┬─────┬─────┬─────┐       ┌─────────┬─────────┬─────────┬─────────┬─────────┬────────┐
+//    │     │  1  │  2  │  3  │  4  │  5  │       │    6    │    7    │    8    │    9    │    0    │ EE_CLR │
+//    ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────────┼─────────┼─────────┼─────────┼─────────┼────────┤
+//    │     │     │     │     │     │     │       │ RM_TOGG │ RM_HUEU │ RM_SATU │ RM_VALU │ RM_SPDU │        │
+//    ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────────┼─────────┼─────────┼─────────┼─────────┼────────┤
+//    │     │     │     │     │     │     │       │ RM_NEXT │ RM_HUED │ RM_SATD │ RM_VALD │ RM_SPDD │        │
+//    └─────┴─────┴─────┼─────┼─────┼─────┤       ├─────────┼─────────┼─────────┼─────────┴─────────┴────────┘
 //                      │     │     │     │       │         │         │         │
 //                      └─────┴─────┴─────┘       └─────────┴─────────┴─────────┘
 [_3_NUMBERS_RGB] = LAYOUT_split_3x6_3(
-  KC_TRNS , KC_1    , KC_2    , KC_3    , KC_4    , KC_5    ,         KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , KC_TRNS,
+  KC_TRNS , KC_1    , KC_2    , KC_3    , KC_4    , KC_5    ,         KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , EE_CLR ,
   KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,         RM_TOGG , RM_HUEU , RM_SATU , RM_VALU , RM_SPDU , KC_TRNS,
   KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS ,         RM_NEXT , RM_HUED , RM_SATD , RM_VALD , RM_SPDD , KC_TRNS,
                                 KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
@@ -146,6 +146,7 @@ bool oled_task_user(void) {
         // oled_render_capslock();
         // oled_render_keylog();
         // render_key_counter();
+        render_rgb_mode();
         render_rgb_status();
     } else {
         oled_render_logo();
@@ -154,3 +155,13 @@ bool oled_task_user(void) {
 }
 #endif // OLED_ENABLE
 
+void keyboard_post_init_user(void) {
+    // ---- OLED fix (Mac glitch) ----
+    wait_ms(120);
+    oled_off();
+    wait_ms(50);
+    oled_on();
+
+    // ---- RGB fix (ESSENCIAL) ----
+    rgb_matrix_enable_noeeprom();
+}

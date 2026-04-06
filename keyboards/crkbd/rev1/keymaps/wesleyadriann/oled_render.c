@@ -21,9 +21,10 @@ void oled_render_layer_state(void) {
     bool caps = host_keyboard_led_state().caps_lock;
 
     // ● = caps ON | ○ = caps OFF
-    snprintf(buf, sizeof(buf), "L%d  %c",
+        // caps ? 0xDF : 0xDE
+    snprintf(buf, sizeof(buf), "L%d C%c",
         layer,
-        caps ? 0xDF : 0xDE
+        caps ? '*' : '_'
     );
 
     oled_write_ln(buf, false); // invertido = destaque
@@ -141,6 +142,19 @@ void render_key_counter(void) {
     oled_write_ln(buf, false);
 }
 
+
+void render_rgb_mode(void) {
+    // =====================
+    // MODE
+    // =====================
+    //
+    oled_write_ln_P(PSTR(">RGB<"), false);
+    char buf[6];
+    snprintf(buf, sizeof(buf), "M%03d", rgb_matrix_get_mode());
+    oled_write_ln(buf, false);
+    oled_write_ln_P(PSTR(""), false);
+}
+
 void render_rgb_status(void) {
 
     // Brilho
@@ -170,14 +184,6 @@ void render_rgb_status(void) {
     // SAT (0–255)
     // =====================
     snprintf(buf, sizeof(buf), "S%03d", rgb_matrix_get_sat());
-    oled_write_ln(buf, false);
-    oled_write_ln_P(PSTR(""), false);
-
-
-    // =====================
-    // MODE
-    // =====================
-    snprintf(buf, sizeof(buf), "M%03d", rgb_matrix_get_mode());
     oled_write_ln(buf, false);
     oled_write_ln_P(PSTR(""), false);
 
