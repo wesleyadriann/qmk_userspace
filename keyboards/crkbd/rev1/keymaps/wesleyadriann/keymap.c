@@ -1,25 +1,6 @@
-/*
-Copyright 2019 @foostan
-Copyright 2020 Drashna Jaelre <@drashna>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include QMK_KEYBOARD_H
 #include "quantum.h"
 #include "oled_render.h"
-
 
 enum layer_names {
     _0_MAIN,
@@ -29,36 +10,36 @@ enum layer_names {
     _4_SYMBOLS,
 };
 
-
 // custom keycodes
 //  Turn on layer when held, kc when tapped
 #define LT_03 LT(_3_NUMBERS_RGB, KC_ENT)
 #define LT_04 LT(_4_SYMBOLS, KC_SPC)
 
-//  mod-tap home row
-#define LSHIFT_D LSFT_T(KC_D) // Left Shift when held, D when tapped
+//  mod-tap keys
+//   left hand
+#define LSHIFT_TAB LSFT_T(KC_TAB) // Left Shift when held, Tab when tapped
 #define LALT_S LALT_T(KC_S)  // Left Alt when held, S when tapped
 #define LGUI_F LGUI_T(KC_F)  // Left GUI when held, F when tapped
 
-#define RSHIFT_K RSFT_T(KC_K)  // Right Shift when held, K when tapped
+//   right hand
 #define RCTL_J RCTL_T(KC_J)  // Right Control when held, J when tapped
-#define RALT_L RALT_T(KC_L)  // Right Alt when held, L when tapped
+#define RALT_SCLN RALT_T(KC_SCLN)  // Right Alt when held, ; when tapped
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌─────────┬───┬────────┬──────────┬────────────┬───────┐       ┌───────┬────────────────┬──────────┬────────┬───┬──────┐
-//    │ QK_GESC │ q │   w    │    e     │     r      │   t   │       │   y   │       u        │    i     │   o    │ p │  =   │
-//    ├─────────┼───┼────────┼──────────┼────────────┼───────┤       ├───────┼────────────────┼──────────┼────────┼───┼──────┤
-//    │   tab   │ a │ LALT_S │ LSHIFT_D │   LGUI_F   │   g   │       │   h   │     RCTL_J     │ RSHIFT_K │ RALT_L │ ; │  '   │
-//    ├─────────┼───┼────────┼──────────┼────────────┼───────┤       ├───────┼────────────────┼──────────┼────────┼───┼──────┤
-//    │  lctl   │ z │   x    │    c     │     v      │   b   │       │   n   │       m        │    ,     │   .    │ / │ rsft │
-//    └─────────┴───┴────────┼──────────┼────────────┼───────┤       ├───────┼────────────────┼──────────┼────────┴───┴──────┘
-//                           │   lgui   │ MO(_1_AUX) │ LT_04 │       │ LT_03 │ MO(_2_AUX_ALT) │   bspc   │
-//                           └──────────┴────────────┴───────┘       └───────┴────────────────┴──────────┘
+//    ┌────────────┬───┬────────┬──────┬────────────┬───────┐       ┌───────┬────────────────┬──────┬───┬───────────┬──────┐
+//    │  QK_GESC   │ q │   w    │  e   │     r      │   t   │       │   y   │       u        │  i   │ o │     p     │  =   │
+//    ├────────────┼───┼────────┼──────┼────────────┼───────┤       ├───────┼────────────────┼──────┼───┼───────────┼──────┤
+//    │ LSHIFT_TAB │ a │ LALT_S │  d   │   LGUI_F   │   g   │       │   h   │     RCTL_J     │  k   │ l │ RALT_SCLN │  '   │
+//    ├────────────┼───┼────────┼──────┼────────────┼───────┤       ├───────┼────────────────┼──────┼───┼───────────┼──────┤
+//    │    lctl    │ z │   x    │  c   │     v      │   b   │       │   n   │       m        │  ,   │ . │     /     │ rsft │
+//    └────────────┴───┴────────┼──────┼────────────┼───────┤       ├───────┼────────────────┼──────┼───┴───────────┴──────┘
+//                              │ lgui │ MO(_1_AUX) │ LT_04 │       │ LT_03 │ MO(_2_AUX_ALT) │ bspc │
+//                              └──────┴────────────┴───────┘       └───────┴────────────────┴──────┘
 [_0_MAIN] = LAYOUT_split_3x6_3(
-  QK_GESC , KC_Q , KC_W   , KC_E     , KC_R       , KC_T  ,         KC_Y  , KC_U           , KC_I     , KC_O   , KC_P    , KC_EQL ,
-  KC_TAB  , KC_A , LALT_S , LSHIFT_D , LGUI_F     , KC_G  ,         KC_H  , RCTL_J         , RSHIFT_K , RALT_L , KC_SCLN , KC_QUOT,
-  KC_LCTL , KC_Z , KC_X   , KC_C     , KC_V       , KC_B  ,         KC_N  , KC_M           , KC_COMM  , KC_DOT , KC_SLSH , KC_RSFT,
-                            KC_LGUI  , MO(_1_AUX) , LT_04 ,         LT_03 , MO(_2_AUX_ALT) , KC_BSPC
+  QK_GESC    , KC_Q , KC_W   , KC_E    , KC_R       , KC_T  ,         KC_Y  , KC_U           , KC_I    , KC_O   , KC_P      , KC_EQL ,
+  LSHIFT_TAB , KC_A , LALT_S , KC_D    , LGUI_F     , KC_G  ,         KC_H  , RCTL_J         , KC_K    , KC_L   , RALT_SCLN , KC_QUOT,
+  KC_LCTL    , KC_Z , KC_X   , KC_C    , KC_V       , KC_B  ,         KC_N  , KC_M           , KC_COMM , KC_DOT , KC_SLSH   , KC_RSFT,
+                               KC_LGUI , MO(_1_AUX) , LT_04 ,         LT_03 , MO(_2_AUX_ALT) , KC_BSPC
 ),
 
 //    ┌─────┬─────┬─────┬────────┬────────┬─────┐       ┌──────┬──────┬─────┬──────┬─────┬─────┐
@@ -109,32 +90,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
-//    ┌─────┬─────┬─────┬─────┬──────┬──────┐       ┌──────┬──────┬─────┬─────┬────────┬─────┐
-//    │     │  !  │  @  │  #  │  $   │  %   │       │  ^   │  &   │  *  │     │        │     │
-//    ├─────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼──────┼─────┼─────┼────────┼─────┤
-//    │     │     │     │     │      │ mply │       │ caps │      │     │     │ RCA(,) │     │
-//    ├─────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼──────┼─────┼─────┼────────┼─────┤
-//    │     │     │     │     │ vold │ volu │       │ vold │ volu │     │     │        │     │
-//    └─────┴─────┴─────┼─────┼──────┼──────┤       ├──────┼──────┼─────┼─────┴────────┴─────┘
+//    ┌─────┬─────┬─────┬─────┬──────┬──────┐       ┌──────┬──────┬─────┬─────┬─────┬─────┐
+//    │     │  !  │  @  │  #  │  $   │  %   │       │  ^   │  &   │  *  │     │     │     │
+//    ├─────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼──────┼─────┼─────┼─────┼─────┤
+//    │     │     │     │     │      │ mply │       │ caps │      │     │     │     │     │
+//    ├─────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼──────┼─────┼─────┼─────┼─────┤
+//    │     │     │     │     │ vold │ volu │       │ vold │ volu │     │     │     │     │
+//    └─────┴─────┴─────┼─────┼──────┼──────┤       ├──────┼──────┼─────┼─────┴─────┴─────┘
 //                      │     │      │      │       │      │      │     │
 //                      └─────┴──────┴──────┘       └──────┴──────┴─────┘
 [_4_SYMBOLS] = LAYOUT_split_3x6_3(
-  KC_TRNS , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC ,         KC_CIRC , KC_AMPR , KC_ASTR , KC_TRNS , KC_TRNS      , KC_TRNS,
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_MPLY ,         KC_CAPS , KC_TRNS , KC_TRNS , KC_TRNS , RCA(KC_COMM) , KC_TRNS,
-  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_VOLD , KC_VOLU ,         KC_VOLD , KC_VOLU , KC_TRNS , KC_TRNS , KC_TRNS      , KC_TRNS,
+  KC_TRNS , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC ,         KC_CIRC , KC_AMPR , KC_ASTR , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_MPLY ,         KC_CAPS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_VOLD , KC_VOLU ,         KC_VOLD , KC_VOLU , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
                                 KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
 )
 };
-
-#ifdef ENCODER_MAP_ENABLE
-// const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-//   [0] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT), ENCODER_CCW_CW(RM_VALD, RM_VALU), ENCODER_CCW_CW(KC_RGHT, KC_LEFT), },
-//   [1] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT), ENCODER_CCW_CW(RM_VALD, RM_VALU), ENCODER_CCW_CW(KC_RGHT, KC_LEFT), },
-//   [2] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT), ENCODER_CCW_CW(RM_VALD, RM_VALU), ENCODER_CCW_CW(KC_RGHT, KC_LEFT), },
-//   [3] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT), ENCODER_CCW_CW(RM_VALD, RM_VALU), ENCODER_CCW_CW(KC_RGHT, KC_LEFT), },
-// };
-#endif
-
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
@@ -169,12 +140,5 @@ bool oled_task_user(void) {
 #endif // OLED_ENABLE
 
 void keyboard_post_init_user(void) {
-    // ---- OLED fix (Mac glitch) ----
-    wait_ms(120);
-    oled_off();
-    wait_ms(50);
-    oled_on();
-
-    // ---- RGB fix (ESSENCIAL) ----
     rgb_matrix_enable_noeeprom();
 }
