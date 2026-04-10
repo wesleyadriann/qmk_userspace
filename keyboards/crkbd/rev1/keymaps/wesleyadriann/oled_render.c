@@ -1,47 +1,41 @@
 #include "quantum.h"
 #include "oled_render.h"
-#include "rgb_matrix.h"
-#include "color.h"
-#include "oled_driver.h"
-
-// void oled_render_layer_state(void) {
-//     oled_write_P(PSTR("L:"), false);
-//
-//     oled_write(get_u8_str(get_highest_layer(layer_state), ' '), false);
-//
-//     oled_write_ln_P(PSTR(""), false);
-//     // oled_write_P(PSTR("-----"), false);
-// }
-//
 
 void oled_render_layer_state(void) {
-    char buf[16];
+    oled_write_P(PSTR("Layer"), false);
 
-    uint8_t layer = get_highest_layer(layer_state);
-    bool caps = host_keyboard_led_state().caps_lock;
+    oled_write_ln(get_u8_str(get_highest_layer(layer_state), ' '), false);
 
-    // ● = caps ON | ○ = caps OFF
-        // caps ? 0xDF : 0xDE
-    snprintf(buf, sizeof(buf), "L%d  %c",
-        layer,
-        caps ? 7 : 9
-    );
-
-    oled_write_ln(buf, false); // invertido = destaque
+    oled_write_P(PSTR("-----"), false);
 }
+
 
 void oled_render_capslock(void) {
-    oled_write_P(PSTR("C:"), false);
+    oled_write_P(PSTR("Stats"), false);
 
-    if (host_keyboard_led_state().caps_lock) {
-        oled_write_P(PSTR("  *"), false);
-    } else {
-        oled_write_P(PSTR("  _"), false);
-    }
+    bool caps_lock = host_keyboard_led_state().caps_lock;
+    oled_write_P(caps_lock ? PSTR("cap:*") : PSTR("cap:."), false);
 
-    oled_write_ln_P(PSTR(""), false);
-    // oled_write_P(PSTR("-----"), false);
+    oled_write_P(PSTR("-----"), false);
 }
+
+// void oled_render_layer_state(void) {
+//     char buf[16];
+//
+//     uint8_t layer = get_highest_layer(layer_state);
+//     bool caps = host_keyboard_led_state().caps_lock;
+//
+//     // ● = caps ON | ○ = caps OFF
+//     //caps ? 7 : 9
+//     snprintf(buf, sizeof(buf), "L%d  %c",
+//         layer,
+//         caps ? 222 : 223
+//     );
+//
+//     oled_write_ln(buf, false); // invertido = destaque
+// }
+
+
 
 char     key_name_user = '_';
 // uint16_t last_keycode;
@@ -116,20 +110,12 @@ void oled_render_keylog(void) {
 }
 
 void oled_render_logo(void) {
-    // static const char PROGMEM qmk_logo[] = {
-    //     0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F, 0x90, 0x91, 0x92, 0x93, 0x94,
-    //     0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xAB, 0xAC, 0xAD, 0xAE, 0xAF, 0xB0, 0xB1, 0xB2, 0xB3, 0xB4,
-    //     0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0xCF, 0xD0, 0xD1, 0xD2, 0xD3, 0xD4, 0x00
-    // };
-    //
-    // oled_write_P(qmk_logo, false);
     static const char PROGMEM raw_logo[] = {
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,128,128,128,124,252, 12, 12, 24, 24, 48, 96,192,128,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 16,240,128,128,128,128,128,252,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,240,240, 48, 48, 99,204,192,224, 48, 24, 14,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 24, 24, 24, 24, 24, 16, 16, 48, 48, 48, 96,192,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,252,240,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1, 48, 63, 48, 48, 48, 48,  0,  0,  0,  1,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 15,  1,  1,  1,  1,  1, 31,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 31,  0,  0,  0,  0,  0,  1,  3, 14, 24, 48,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 12, 12, 12, 12,  8,  8,  8,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 63, 63,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     };
-
     oled_write_raw_P(raw_logo, sizeof(raw_logo));
 }
 
@@ -147,15 +133,29 @@ void render_rgb_mode(void) {
     // =====================
     // MODE
     // =====================
-    //
-    oled_write_ln_P(PSTR("_RGB_"), false);
+    oled_write_P(PSTR("Light"), false);
     char buf[6];
-    snprintf(buf, sizeof(buf), "M%03d", rgb_matrix_get_mode());
+
+    snprintf(buf, sizeof(buf), "RGB:%c", rgb_matrix_is_enabled() ? '*' : '.');
+    oled_write(buf, false);
+
+    snprintf(buf, sizeof(buf), "M: %2d", rgb_matrix_get_mode());
     oled_write_ln(buf, false);
-    oled_write_ln_P(PSTR(""), false);
 }
 
 void render_rgb_status(void) {
+    char buf[6];
+    // =====================
+    // HUE (0–255)
+    // =====================
+    snprintf(buf, sizeof(buf), "h:%3d", rgb_matrix_get_hue());
+    oled_write(buf, false);
+
+   // =====================
+    // SAT (0–255)
+    // =====================
+    snprintf(buf, sizeof(buf), "s:%3d", rgb_matrix_get_sat());
+    oled_write_ln(buf, false);
 
     // =====================
     // BRIGHTNESS
@@ -165,13 +165,17 @@ void render_rgb_status(void) {
     // converte para 0–5
     uint8_t level = (val * 5) / 150;
 
-    char bar[6] = ".....";
+    char bar[6] = {219, 220, 221, 222, 223, '\0'};
 
-    if (level > 0 && level < sizeof bar) {
-        bar[level - 1] = '|';
+    for (int i = level; i < sizeof bar - 1; i++) {
+        bar[i] = ' ';
     }
 
-    oled_write_ln(bar, false);
+    if(level == 0) {
+        bar[0] = '.';
+    }
+
+    oled_write(bar, false);
 
     // =====================
     // SPEED
@@ -188,21 +192,4 @@ void render_rgb_status(void) {
     }
 
     oled_write_ln(bar_speed, false);
-
-    char buf[6];
-    // =====================
-    // HUE (0–255)
-    // =====================
-    snprintf(buf, sizeof(buf), "H%03d", rgb_matrix_get_hue());
-    oled_write_ln(buf, false);
-    oled_write_ln_P(PSTR(""), false);
-
-   // =====================
-    // SAT (0–255)
-    // =====================
-    snprintf(buf, sizeof(buf), "S%03d", rgb_matrix_get_sat());
-    oled_write_ln(buf, false);
-    oled_write_ln_P(PSTR(""), false);
-
-
 }

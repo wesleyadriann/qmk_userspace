@@ -13,7 +13,7 @@
 // =====================
 // OLED
 // =====================
-// #define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
+#define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
 #define OLED_TIMEOUT 60000
 #define OLED_FADE_OUT
 
