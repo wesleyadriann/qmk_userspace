@@ -3,7 +3,7 @@
 // =====================
 // SPLIT
 // =====================
-#define MASTER_RIGHT
+//#define MASTER_RIGHT
 
 #define SPLIT_TRANSPORT_MIRROR
 #define SPLIT_LAYER_STATE_ENABLE

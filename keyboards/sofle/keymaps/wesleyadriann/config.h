@@ -3,11 +3,16 @@
 
 #pragma once
 
-#define TRI_LAYER_LOWER_LAYER 2
-#define TRI_LAYER_UPPER_LAYER 3
-#define TRI_LAYER_ADJUST_LAYER 4
-
-#define MASTER_RIGHT
-#define OLED_TIMEOUT 10000
+// =====================
+// SPLIT
+// =====================
+//#define MASTER_RIGHT
 
 #define SPLIT_WPM_ENABLE
+
+// =====================
+// OLED
+// =====================
+#define OLED_TIMEOUT 60000
+#define OLED_FADE_OUT
+
