@@ -14,9 +14,14 @@ enum layer_names {
     _4_SYMBOLS
 };
 
+// custom keycodes
 enum custom_keycodes {
     LAYER_1_3 = SAFE_RANGE,
 };
+
+// mod-tap keys
+// left hand
+#define LALT_S LALT_T(KC_S)  // Left Alt when held, S when tapped
 
 
 static uint16_t layer_timer;
@@ -27,7 +32,7 @@ static void handle_layer_tap_hold(keyrecord_t *record, uint8_t hold_layer, uint8
         layer_on(hold_layer);
     } else {
         layer_off(hold_layer);
-        if (timer_elapsed(layer_timer) < 200) {
+        if (timer_elapsed(layer_timer) < 150) {
             layer_invert(tap_layer);
         } else {
             layer_move(_0_MAIN);
@@ -46,21 +51,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // Keymaps
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//        ┌─────────┬─────┬──────┬──────┬───────────────┬─────┐                 ┌─────┬───────────┬──────┬──────┬───┬──────┐
-//        │ QK_GESC │  1  │  2   │  3   │       4       │  5  │                 │  6  │     7     │  8   │  9   │ 0 │ pscr │
-//        ├─────────┼─────┼──────┼──────┼───────────────┼─────┤                 ├─────┼───────────┼──────┼──────┼───┼──────┤
-//        │   tab   │  q  │  w   │  e   │       r       │  t  │                 │  y  │     u     │  i   │  o   │ p │ del  │
-//        ├─────────┼─────┼──────┼──────┼───────────────┼─────┤                 ├─────┼───────────┼──────┼──────┼───┼──────┤
-//        │  lsft   │  a  │  s   │  d   │       f       │  g  │                 │  h  │     j     │  k   │  l   │ ; │  '   │
-//        ├─────────┼─────┼──────┼──────┼───────────────┼─────┼──────┐   ┌──────┼─────┼───────────┼──────┼──────┼───┼──────┤
-//        │  lctl   │  z  │  x   │  c   │       v       │  b  │ mply │   │ caps │  n  │     m     │  ,   │  .   │ / │ rsft │
-//        └─────────┼─────┼──────┼──────┼───────────────┼─────┼──────┘   └──────┼─────┼───────────┼──────┼──────┼───┼──────┘
-//                  │     │ lalt │ lgui │ MO(_2_AUX_FS) │ spc │                 │ ent │ LAYER_1_3 │ bspc │ ralt │ \ │
-//                  └─────┴──────┴──────┴───────────────┴─────┘                 └─────┴───────────┴──────┴──────┴───┘
+//        ┌─────────┬─────┬────────┬──────┬───────────────┬─────┐                 ┌─────┬───────────┬──────┬──────┬───┬──────┐
+//        │ QK_GESC │  1  │   2    │  3   │       4       │  5  │                 │  6  │     7     │  8   │  9   │ 0 │ pscr │
+//        ├─────────┼─────┼────────┼──────┼───────────────┼─────┤                 ├─────┼───────────┼──────┼──────┼───┼──────┤
+//        │   tab   │  q  │   w    │  e   │       r       │  t  │                 │  y  │     u     │  i   │  o   │ p │ del  │
+//        ├─────────┼─────┼────────┼──────┼───────────────┼─────┤                 ├─────┼───────────┼──────┼──────┼───┼──────┤
+//        │  lsft   │  a  │ LALT_S │  d   │       f       │  g  │                 │  h  │     j     │  k   │  l   │ ; │  '   │
+//        ├─────────┼─────┼────────┼──────┼───────────────┼─────┼──────┐   ┌──────┼─────┼───────────┼──────┼──────┼───┼──────┤
+//        │  lctl   │  z  │   x    │  c   │       v       │  b  │ mply │   │ caps │  n  │     m     │  ,   │  .   │ / │ rsft │
+//        └─────────┼─────┼────────┼──────┼───────────────┼─────┼──────┘   └──────┼─────┼───────────┼──────┼──────┼───┼──────┘
+//                  │     │  lalt  │ lgui │ MO(_2_AUX_FS) │ spc │                 │ ent │ LAYER_1_3 │ bspc │ ralt │ \ │
+//                  └─────┴────────┴──────┴───────────────┴─────┘                 └─────┴───────────┴──────┴──────┴───┘
 [_0_MAIN] = LAYOUT(
       QK_GESC , KC_1    , KC_2    , KC_3    , KC_4          , KC_5   ,                         KC_6   , KC_7      , KC_8    , KC_9    , KC_0    , KC_PSCR,
       KC_TAB  , KC_Q    , KC_W    , KC_E    , KC_R          , KC_T   ,                         KC_Y   , KC_U      , KC_I    , KC_O    , KC_P    , KC_DEL ,
-      KC_LSFT , KC_A    , KC_S    , KC_D    , KC_F          , KC_G   ,                         KC_H   , KC_J      , KC_K    , KC_L    , KC_SCLN , KC_QUOT,
+      KC_LSFT , KC_A    , LALT_S  , KC_D    , KC_F          , KC_G   ,                         KC_H   , KC_J      , KC_K    , KC_L    , KC_SCLN , KC_QUOT,
       KC_LCTL , KC_Z    , KC_X    , KC_C    , KC_V          , KC_B   , KC_MPLY ,     KC_CAPS , KC_N   , KC_M      , KC_COMM , KC_DOT  , KC_SLSH , KC_RSFT,
                 KC_TRNS , KC_LALT , KC_LGUI , MO(_2_AUX_FS) , KC_SPC ,                         KC_ENT , LAYER_1_3 , KC_BSPC , KC_RALT , KC_BSLS
 ),

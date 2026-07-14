@@ -32,7 +32,7 @@ void render_capslock(void) {
     if (host_keyboard_led_state().caps_lock) {
         oled_write_P(PSTR("  *"), false);
     } else {
-        oled_write_P(PSTR("  _"), false);
+        oled_write_P(PSTR("  ."), false);
     }
 
 }
