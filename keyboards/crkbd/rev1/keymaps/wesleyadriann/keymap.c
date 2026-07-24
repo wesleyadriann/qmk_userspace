@@ -23,23 +23,23 @@ enum layer_names {
 
 //   right hand
 #define RCTL_J RCTL_T(KC_J)  // Right Control when held, J when tapped
-#define RALT_SCLN RALT_T(KC_SCLN)  // Right Alt when held, ; when tapped
+#define RALT_BSPC RALT_T(KC_BSPC) // Right Alt when held, backspace when tapped
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌────────────┬───┬────────┬──────┬────────────┬───────┐       ┌───────┬────────────────┬──────┬───┬───────────┬──────┐
-//    │  QK_GESC   │ q │   w    │  e   │     r      │   t   │       │   y   │       u        │  i   │ o │     p     │ del  │
-//    ├────────────┼───┼────────┼──────┼────────────┼───────┤       ├───────┼────────────────┼──────┼───┼───────────┼──────┤
-//    │ LSHIFT_TAB │ a │ LALT_S │  d   │   LGUI_F   │   g   │       │   h   │     RCTL_J     │  k   │ l │ RALT_SCLN │  '   │
-//    ├────────────┼───┼────────┼──────┼────────────┼───────┤       ├───────┼────────────────┼──────┼───┼───────────┼──────┤
-//    │    lctl    │ z │   x    │  c   │     v      │   b   │       │   n   │       m        │  ,   │ . │     /     │ rsft │
-//    └────────────┴───┴────────┼──────┼────────────┼───────┤       ├───────┼────────────────┼──────┼───┴───────────┴──────┘
-//                              │ lgui │ MO(_1_AUX) │ LT_04 │       │ LT_03 │ MO(_2_AUX_ALT) │ bspc │
-//                              └──────┴────────────┴───────┘       └───────┴────────────────┴──────┘
+//    ┌────────────┬───┬────────┬──────┬────────────┬───────┐       ┌───────┬────────────────┬───────────┬───┬───┬──────┐
+//    │  QK_GESC   │ q │   w    │  e   │     r      │   t   │       │   y   │       u        │     i     │ o │ p │ del  │
+//    ├────────────┼───┼────────┼──────┼────────────┼───────┤       ├───────┼────────────────┼───────────┼───┼───┼──────┤
+//    │ LSHIFT_TAB │ a │ LALT_S │  d   │   LGUI_F   │   g   │       │   h   │     RCTL_J     │     k     │ l │ ; │  '   │
+//    ├────────────┼───┼────────┼──────┼────────────┼───────┤       ├───────┼────────────────┼───────────┼───┼───┼──────┤
+//    │    lctl    │ z │   x    │  c   │     v      │   b   │       │   n   │       m        │     ,     │ . │ / │ rsft │
+//    └────────────┴───┴────────┼──────┼────────────┼───────┤       ├───────┼────────────────┼───────────┼───┴───┴──────┘
+//                              │ lgui │ MO(_1_AUX) │ LT_04 │       │ LT_03 │ MO(_2_AUX_ALT) │ RALT_BSPC │
+//                              └──────┴────────────┴───────┘       └───────┴────────────────┴───────────┘
 [_0_MAIN] = LAYOUT_split_3x6_3(
-  QK_GESC    , KC_Q , KC_W   , KC_E    , KC_R       , KC_T  ,         KC_Y  , KC_U           , KC_I    , KC_O   , KC_P      , KC_DEL ,
-  LSHIFT_TAB , KC_A , LALT_S , KC_D    , LGUI_F     , KC_G  ,         KC_H  , RCTL_J         , KC_K    , KC_L   , RALT_SCLN , KC_QUOT,
-  KC_LCTL    , KC_Z , KC_X   , KC_C    , KC_V       , KC_B  ,         KC_N  , KC_M           , KC_COMM , KC_DOT , KC_SLSH   , KC_RSFT,
-                               KC_LGUI , MO(_1_AUX) , LT_04 ,         LT_03 , MO(_2_AUX_ALT) , KC_BSPC
+  QK_GESC    , KC_Q , KC_W   , KC_E    , KC_R       , KC_T  ,         KC_Y  , KC_U           , KC_I      , KC_O   , KC_P    , KC_DEL ,
+  LSHIFT_TAB , KC_A , LALT_S , KC_D    , LGUI_F     , KC_G  ,         KC_H  , RCTL_J         , KC_K      , KC_L   , KC_SCLN , KC_QUOT,
+  KC_LCTL    , KC_Z , KC_X   , KC_C    , KC_V       , KC_B  ,         KC_N  , KC_M           , KC_COMM   , KC_DOT , KC_SLSH , KC_RSFT,
+                               KC_LGUI , MO(_1_AUX) , LT_04 ,         LT_03 , MO(_2_AUX_ALT) , RALT_BSPC
 ),
 
 //    ┌─────┬─────┬─────┬────────┬────────┬─────┐       ┌──────┬──────┬─────┬──────┬─────┬─────┐
