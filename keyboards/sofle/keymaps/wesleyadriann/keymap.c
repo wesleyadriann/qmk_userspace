@@ -141,7 +141,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 bool oled_task_user(void) {
-    if (last_input_activity_elapsed() > 60000) {
+    if (last_input_activity_elapsed() > OLED_TIMEOUT) {
         oled_off();
         return false;
     }

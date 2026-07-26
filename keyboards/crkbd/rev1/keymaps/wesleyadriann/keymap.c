@@ -1,6 +1,7 @@
 #include QMK_KEYBOARD_H
 #include "quantum.h"
 #include "oled_render.h"
+#include "matrix_rain.h"
 
 enum layer_names {
     _0_MAIN,
@@ -125,6 +126,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool oled_task_user(void) {
+    if (last_input_activity_elapsed() > OLED_TIMEOUT) {
+        oled_off();
+        return false;
+    }
+
+    oled_on();
+
     if (is_keyboard_master()) {
         oled_render_layer_state();
         oled_render_capslock();
@@ -133,7 +141,7 @@ bool oled_task_user(void) {
         render_rgb_mode();
         render_rgb_status();
     } else {
-        oled_render_logo();
+        matrix_rain_task();
     }
     return false;
 }

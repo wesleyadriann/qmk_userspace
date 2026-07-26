@@ -1,4 +1,4 @@
-SRC += oled_render.c
+SRC += oled_render.c matrix_rain.c
 
 SPLIT_KEYBOARD = yes
 

@@ -16,6 +16,8 @@
 #define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
 #define OLED_TIMEOUT 60000
 #define OLED_FADE_OUT
+// The rain updates the whole 128x32 framebuffer every 50 ms.
+#define OLED_UPDATE_PROCESS_LIMIT 16
 
 // =====================
 // RGB MATRIX
