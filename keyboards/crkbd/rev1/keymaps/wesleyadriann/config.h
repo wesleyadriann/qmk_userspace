@@ -17,7 +17,6 @@
 #define OLED_TIMEOUT 60000
 #define OLED_FADE_OUT
 
-
 // =====================
 // RGB MATRIX
 // =====================
