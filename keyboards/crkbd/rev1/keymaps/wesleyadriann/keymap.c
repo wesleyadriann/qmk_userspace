@@ -91,17 +91,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS
 ),
 
-//    ┌─────┬─────┬─────┬─────┬──────┬──────┐       ┌──────┬─────┬─────┬─────┬─────┬─────┐
-//    │     │  !  │  @  │  #  │  $   │  %   │       │  ^   │  &  │  *  │     │     │     │
-//    ├─────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │     │     │      │ mply │       │ caps │     │     │     │     │     │
-//    ├─────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┼─────┼─────┤
-//    │     │     │     │     │ vold │ volu │       │      │     │     │     │     │     │
-//    └─────┴─────┴─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┴─────┴─────┘
+//    ┌─────┬─────┬─────┬─────┬──────┬──────┐       ┌──────┬─────┬─────┬─────┬─────┬──────┐
+//    │     │  !  │  @  │  #  │  $   │  %   │       │  ^   │  &  │  *  │     │     │ pscr │
+//    ├─────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┼─────┼──────┤
+//    │     │     │     │     │      │ mply │       │ caps │     │     │     │     │      │
+//    ├─────┼─────┼─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┼─────┼──────┤
+//    │     │     │     │     │ vold │ volu │       │      │     │     │     │     │      │
+//    └─────┴─────┴─────┼─────┼──────┼──────┤       ├──────┼─────┼─────┼─────┴─────┴──────┘
 //                      │     │      │      │       │      │     │     │
 //                      └─────┴──────┴──────┘       └──────┴─────┴─────┘
 [_4_SYMBOLS] = LAYOUT_split_3x6_3(
-  KC_TRNS , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC ,         KC_CIRC , KC_AMPR , KC_ASTR , KC_TRNS , KC_TRNS , KC_TRNS,
+  KC_TRNS , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC ,         KC_CIRC , KC_AMPR , KC_ASTR , KC_TRNS , KC_TRNS , KC_PSCR,
   KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_MPLY ,         KC_CAPS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
   KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_VOLD , KC_VOLU ,         KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS , KC_TRNS,
                                 KC_TRNS , KC_TRNS , KC_TRNS ,         KC_TRNS , KC_TRNS , KC_TRNS

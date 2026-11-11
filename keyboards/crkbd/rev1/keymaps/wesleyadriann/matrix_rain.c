@@ -62,11 +62,9 @@ static void matrix_rain_spawn(uint8_t column) {
     matrix_rain_glyph[column] = (uint8_t)((value >> 9) & 0x07U);
 }
 
-// Maps the packed random value to a 2--4 pixel/frame fall speed.
+// Maps the packed random value to a 1--4 pixel/frame fall speed.
 static uint8_t matrix_rain_speed(uint8_t shape) {
-    uint8_t speed = (shape & 0x03U) + 2;
-
-    return speed == 5 ? 4 : speed;
+    return (shape & 0x03U) + 1;
 }
 
 // Returns whether one trail pixel survives the ordered-dither fade.
